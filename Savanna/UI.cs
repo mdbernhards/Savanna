@@ -1,10 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace Savanna
 {
     public class UI
     {
+        public void DrawField(Field field)
+        {
+            Console.Clear();
+
+            StringBuilder fieldString = new StringBuilder();
+
+            fieldString.AppendLine("Spawn Antelope by pressing A");
+            fieldString.AppendLine("Spawn Lion by pressing L");
+
+            for (int line = 0; line < field.Height; line++)
+            {
+                for (int character = 0; character < field.Width; character++)
+                {
+                    if (field.SavannaField[line, character].Type == 'E')
+                    {
+                        fieldString.Append(" ");
+                    }
+                    else
+                    {
+                        fieldString.Append(field.SavannaField[line, character].Type);
+                    }
+                }
+
+                fieldString.AppendLine("");
+            }
+
+            Console.WriteLine(fieldString);
+        }
     }
 }

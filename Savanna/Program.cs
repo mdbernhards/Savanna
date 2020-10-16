@@ -6,7 +6,7 @@ namespace Savanna
     {
         static void Main(string[] args)
         {
-            GameField gameField = new GameField();
+            FieldManager gameField = new FieldManager();
             gameField.SetUpField();
         }
     }
