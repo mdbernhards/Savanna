@@ -3,10 +3,17 @@ using System;
 
 namespace Savanna
 {
+    /// <summary>
+    /// Class that manages all animal actions like moving, attacking, seeing, spawning and more.
+    /// </summary>
     public class AnimalManager
     {
         private Animal animal;
 
+
+        /// <summary>
+        /// Starts the moving process, chooses what type of moving will the animal do: normal, running away, attacking.
+        /// </summary>
         public void AllAnimalsMove(Field field) 
         {
             animal = new Animal();
@@ -26,6 +33,9 @@ namespace Savanna
             }
         }
 
+        /// <summary>
+        /// Normal moving way, where animal if it can moves randomly to one side
+        /// </summary>
         public void MoveToSide(int line, int character, Field field)
         {
             Random randomInt = new Random();
@@ -61,6 +71,9 @@ namespace Savanna
             }
         }
 
+        /// <summary>
+        /// Spawns animal in random place in savanna
+        /// </summary>
         public void SpawnAnimal(Field field)
         {
             Random randomInt = new Random();
@@ -79,6 +92,9 @@ namespace Savanna
             } while (true);
         }
 
+        /// <summary>
+        /// Checks if there is a need to spawn animal, if there is calls SpawnAnimal method and gives it the type of animal that is needed to be spawned
+        /// </summary>
         public void CheckForAnimalSpawn(Field field)
         {
             ConsoleKey key = default;
@@ -101,6 +117,9 @@ namespace Savanna
             }
         }
 
+        /// <summary>
+        /// Checks if animal can see any animal to attack/run away from
+        /// </summary>
         public void CheckVision()
         {
 

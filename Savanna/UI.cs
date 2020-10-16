@@ -3,8 +3,14 @@ using System.Text;
 
 namespace Savanna
 {
+    /// <summary>
+    /// Class that displays all the needed information to the user
+    /// </summary>
     public class UI
     {
+        /// <summary>
+        /// When called draws the grid with given information
+        /// </summary>
         public void DrawField(Field field)
         {
             Console.Clear();
