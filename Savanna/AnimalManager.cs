@@ -7,10 +7,8 @@ namespace Savanna
     {
         private Animal animal;
 
-
-        public void Move(Field field) 
+        public void AllAnimalsMove(Field field) 
         {
-            Random randomInt = new Random();
             animal = new Animal();
 
             for (int line = 0; line < field.Height; line++)
@@ -22,42 +20,43 @@ namespace Savanna
                         var objectCopy = JsonConvert.SerializeObject(field.SavannaField[line, character]);
                         animal = JsonConvert.DeserializeObject<Animal>(objectCopy);
 
-
-                        int side = randomInt.Next(4);
-
-                        if(side == 0 &&  line - 1 >= 0)
-                        {
-                            if (field.SavannaField[line - 1, character].Type == 'E')
-                            {
-                                field.SavannaField[line - 1, character] = animal;
-                                field.SavannaField[line, character].Type = 'E';
-                            }
-                        }
-                        else if (side == 1 && line + 1 < field.Height)
-                        {
-                            if (field.SavannaField[line + 1, character].Type == 'E')
-                            {
-                                field.SavannaField[line + 1, character] = animal;
-                                field.SavannaField[line, character].Type = 'E';
-                            }
-                        }
-                        else if (side == 2 && character - 1 >= 0)
-                        {
-                            if (field.SavannaField[line, character - 1].Type == 'E')
-                            {
-                                field.SavannaField[line, character - 1] = animal;
-                                field.SavannaField[line, character].Type = 'E';
-                            }
-                        }
-                        else if (side == 3 && character + 1 < field.Width)
-                        {
-                            if (field.SavannaField[line, character + 1].Type == 'E')
-                            {
-                                field.SavannaField[line, character + 1] = animal;
-                                field.SavannaField[line, character].Type = 'E';
-                            }
-                        }
+                        MoveToSide(line, character, field);
                     }
+                }
+            }
+        }
+
+        public void MoveToSide(int line, int character, Field field)
+        {
+            Random randomInt = new Random();
+
+            int side = randomInt.Next(4);
+            int placeInColumn = line;
+            int placeInRow = character;
+
+            if (side == 0)
+            {
+                placeInColumn--;
+            }
+            else if (side == 1)
+            {
+                placeInColumn++;
+            }
+            else if (side == 2)
+            {
+                placeInRow--;
+            }
+            else if (side == 3)
+            {
+                placeInRow++;
+            }
+
+            if (placeInColumn >= 0 && placeInColumn < field.Height && placeInRow >= 0 && placeInRow < field.Width) 
+            { 
+                if (field.SavannaField[placeInColumn, placeInRow].Type == 'E')
+                {
+                    field.SavannaField[placeInColumn, placeInRow] = animal;
+                    field.SavannaField[line, character].Type = 'E';
                 }
             }
         }
@@ -100,6 +99,11 @@ namespace Savanna
                 animal = new Animal('L', true, 3, 5);
                 SpawnAnimal(field);
             }
+        }
+
+        public void CheckVision()
+        {
+
         }
     }
 }

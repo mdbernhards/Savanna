@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Savanna
+﻿namespace Savanna
 {
     public class Field
     {
@@ -14,7 +10,6 @@ namespace Savanna
         {
             Height = height;
             Width = width;
-
             SavannaField = new Animal[Height, Width];
         }
     }

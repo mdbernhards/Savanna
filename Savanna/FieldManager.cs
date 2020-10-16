@@ -3,25 +3,29 @@ using System.Timers;
 
 namespace Savanna
 {
+    /// <summary>
+    /// Class that manages evrything about the Savanna field, like: field SetUp and timed field update
+    /// </summary>
     public class FieldManager
     {
-        private Field field;
-        private UI ui;
         private AnimalManager animalManager;
-
+        private Field field;
+        private readonly UI ui;
         private static Timer UpdateTimer;
 
-        private const char Empty = 'E';
-        private const char Lion = 'L';
-        private const char Antelope = 'A';
-
+        /// <summary>
+        /// Class that manages evrything about the Savanna field, like: field SetUp and timed field update
+        /// </summary>
         public FieldManager()
         {
             animalManager = new AnimalManager();
-            ui = new UI();
             field = new Field(40, 100);
+            ui = new UI();
         }
 
+        /// <summary>
+        /// Sets up field to be used by game, starts the updateTimer
+        /// </summary>
         public void SetUpField()
         {
             for (int line = 0; line < field.Height; line++)
@@ -29,13 +33,15 @@ namespace Savanna
                 for (int character = 0; character < field.Width; character++)
                 {
                     field.SavannaField[line, character] = new Animal();
-                    field.SavannaField[line, character].Type = Empty;
                 }
             }
 
             SetFieldUpdateTimer();
         }
 
+        /// <summary>
+        /// Sets up a timer that fires every half a second
+        /// </summary>
         public void SetFieldUpdateTimer()
         {
             UpdateTimer = new Timer(500);
@@ -45,17 +51,16 @@ namespace Savanna
 
             //Infinite loop so the program doesn't stop
             while (true) { }
-
         }
 
+        /// <summary>
+        /// Updates the field, if any changes happen like animals added, animals move. Calls the method that draws everything
+        /// </summary>
         public void FieldUpdate(Object source, ElapsedEventArgs e)
         {
             animalManager.CheckForAnimalSpawn(field);
-
             ui.DrawField(field);
-
-            animalManager.Move(field);
+            animalManager.AllAnimalsMove(field);
         }
-
     }
 }

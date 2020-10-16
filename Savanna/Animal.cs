@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Savanna
+﻿namespace Savanna
 {
     public class Animal
     {
@@ -11,10 +7,9 @@ namespace Savanna
         public int VisionRange { get; set; }
         public int WalkRange { get; set; }
 
-
         public Animal()
         {
-
+            Type = 'E';
         }
 
         public Animal(char type, bool canAttack, int visionRange, int walkRange)
