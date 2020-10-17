@@ -11,6 +11,7 @@ namespace Savanna
         /// <summary>
         /// When called draws the grid with given information
         /// </summary>
+        /// <param name="field">The field that is going to be drawn</param>
         public void DrawField(Field field)
         {
             Console.Clear();
@@ -41,7 +42,6 @@ namespace Savanna
             }
 
             fieldString.AppendLine(" + -------------------------------------------------------------------------------------------------- +");
-
             Console.WriteLine(fieldString);
         }
     }

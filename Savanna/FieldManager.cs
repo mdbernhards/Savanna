@@ -56,6 +56,8 @@ namespace Savanna
         /// <summary>
         /// Updates the field, if any changes happen like animals added, animals move. Calls the method that draws everything
         /// </summary>
+        /// <param name="e">Used by timer</param>
+        /// <param name="source">Used by timer</param>
         public void FieldUpdate(Object source, ElapsedEventArgs e)
         {
             animalManager.CheckForAnimalSpawn(field);

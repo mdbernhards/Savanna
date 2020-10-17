@@ -25,6 +25,9 @@
         /// </summary>
         public int WalkRange { get; set; }
 
+        /// <summary>
+        /// True if animal has moved this turn, false if not. Resets to false every turn
+        /// </summary>
         public bool HasMoved { get; set; }
 
         /// <summary>
@@ -38,12 +41,14 @@
         /// <summary>
         /// Class that stores information about an animal, creates animal
         /// </summary>
-        public Animal(char type, bool canAttack, int visionRange, int walkRange)
+        /// <param name="type">Animal type being created</param>
+        /// <param name="canAttack">Bool statement, if true can attack</param>
+        /// <param name="visionRange">How far can the animal see</param>
+        public Animal(char type, bool canAttack, int visionRange)
         {
             Type = type;
             CanAttack = canAttack;
             VisionRange = visionRange;
-            WalkRange = walkRange;
 
             HasMoved = false;
         }

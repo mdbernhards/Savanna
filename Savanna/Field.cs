@@ -23,6 +23,8 @@
         /// <summary>
         /// Stores information about the Savanna field, like what animals are in it and its Height and Width
         /// </summary>
+        /// <param name="height">Height of Animal array SavannaField beeing created</param>
+        /// <param name="width">Width of Animal array SavannaField beeing created</param>
         public Field(int height, int width)
         {
             Height = height;
