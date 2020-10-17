@@ -25,6 +25,8 @@
         /// </summary>
         public int WalkRange { get; set; }
 
+        public bool HasMoved { get; set; }
+
         /// <summary>
         /// Class that stores information about an animal, creates empty animal
         /// </summary>
@@ -42,6 +44,8 @@
             CanAttack = canAttack;
             VisionRange = visionRange;
             WalkRange = walkRange;
+
+            HasMoved = false;
         }
     }
 }

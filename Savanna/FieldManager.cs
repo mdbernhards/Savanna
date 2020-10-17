@@ -44,7 +44,7 @@ namespace Savanna
         /// </summary>
         public void SetFieldUpdateTimer()
         {
-            UpdateTimer = new Timer(500);
+            UpdateTimer = new Timer(800);
             UpdateTimer.Elapsed += FieldUpdate;
             UpdateTimer.AutoReset = true;
             UpdateTimer.Enabled = true;
@@ -61,6 +61,7 @@ namespace Savanna
             animalManager.CheckForAnimalSpawn(field);
             ui.DrawField(field);
             animalManager.AllAnimalsMove(field);
+            animalManager.AnimalReset(field);
         }
     }
 }
