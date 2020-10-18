@@ -14,7 +14,7 @@ namespace Savanna
         /// Starts the moving process, chooses what type of moving will the animal do: normal, running away, attacking.
         /// </summary>
         /// <param name="field">Field that the animals move on</param>
-        public void AllAnimalsMove(Field field)
+        public void TryToMoveAllAnimals(Field field)
         {
             animal = new Animal();
 
@@ -27,6 +27,7 @@ namespace Savanna
                         var objectCopy = JsonConvert.SerializeObject(field.SavannaField[line, character]);
                         animal = JsonConvert.DeserializeObject<Animal>(objectCopy);
 
+                        EatAnimalIfCan(line, character, field);
                         var hasMoved = CheckVision(line, character, field);
 
                         if (!hasMoved)
@@ -118,13 +119,13 @@ namespace Savanna
 
             if (key == ConsoleKey.A)
             {
-                animal = new Animal('A', false, 5, 10);
+                animal = new Animal('A', false, 5, 100);
                 SpawnAnimal(field);
             }
 
             if (key == ConsoleKey.L)
             {
-                animal = new Animal('L', true, 10, 10);
+                animal = new Animal('L', true, 10, 100);
                 SpawnAnimal(field);
             }
         }
@@ -389,6 +390,43 @@ namespace Savanna
                     }
                 }
             }
+        }
+
+        public void EatAnimalIfCan(int line, int character, Field field)
+        {
+            int eatRange = 1;
+
+            for (int row = -eatRange; row < eatRange; row++)
+            {
+                for (int column = -eatRange; column < eatRange; column++)
+                {
+                    int heightCheck = line + row;
+                    int widthCheck = character + column;
+
+                    if (heightCheck > -1 && heightCheck < field.Height && widthCheck > -1 && widthCheck < field.Width)
+                    {
+                        if (field.SavannaField[heightCheck, widthCheck].Type == 'A' && field.SavannaField[line, character].Type == 'L')
+                        {
+                            field.SavannaField[heightCheck, widthCheck].Type = 'E';
+                            field.SavannaField[line, character].Health += 7;
+                            field.SavannaField[line, character].HasMoved = true;
+                            break;
+                        }
+                        else if (field.SavannaField[heightCheck, widthCheck].Type == 'L' && field.SavannaField[line, character].Type == 'A')
+                        {
+                            field.SavannaField[line, character].Type = 'E';
+                            field.SavannaField[heightCheck, widthCheck].Health += 7;
+                            field.SavannaField[heightCheck, widthCheck].HasMoved = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        public void CheckIfNewAnimalWillBeBorn(Field field)
+        {
+
         }
     }
 }

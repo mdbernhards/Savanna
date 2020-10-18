@@ -36,6 +36,16 @@
         public double Health { get; set; }
 
         /// <summary>
+        /// ID to identify select animal
+        /// </summary>
+        public string ID { get; set; }
+
+        /// <summary>
+        /// Saved IDs of partners
+        /// </summary>
+        public string[] PartnerIDs { get; set; }
+
+        /// <summary>
         /// Class that stores information about an animal, creates empty animal
         /// </summary>
         public Animal()
