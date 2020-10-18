@@ -28,9 +28,10 @@ namespace Savanna
                         animal = JsonConvert.DeserializeObject<Animal>(objectCopy);
 
                         EatAnimalIfCan(line, character, field);
-                        var hasMoved = CheckVision(line, character, field);
+                        CheckIfSameAnimalSpeciesAreClose(line, character, field);
+                        CheckVision(line, character, field);
 
-                        if (!hasMoved)
+                        if (!field.SavannaField[line, character].HasMoved)
                         {
                             MoveToSide(line, character, field);
                         }
@@ -77,7 +78,7 @@ namespace Savanna
                     field.SavannaField[placeInColumn, placeInRow] = animal;
                     field.SavannaField[placeInColumn, placeInRow].HasMoved = true;
 
-                    field.SavannaField[line, character].Type = 'E';
+                    field.SavannaField[line, character] = new Animal();
                 }
             }
         }
@@ -136,7 +137,7 @@ namespace Savanna
         /// <param name="line">Line where the animal is at</param>
         /// <param name="character">Character in line where the animal is at</param>
         /// <param name="field">Field that the animal moves on</param>
-        public bool CheckVision(int line, int character, Field field)
+        public void CheckVision(int line, int character, Field field)
         {
             int vision = field.SavannaField[line, character].VisionRange;
 
@@ -152,18 +153,16 @@ namespace Savanna
                         if (field.SavannaField[heightCheck, widthCheck].Type == 'A' && field.SavannaField[line, character].Type == 'L')
                         {
                             AttackMove(field, line, character, heightCheck, widthCheck);
-                            return true;
+                            return;
                         }
                         else if (field.SavannaField[heightCheck, widthCheck].Type == 'L' && field.SavannaField[line, character].Type == 'A')
                         {
                             RunAwayMove(field, line, character, heightCheck, widthCheck);
-                            return true;
+                            return;
                         }
                     }
                 }
             }
-
-            return false;
         }
 
         /// <summary>
@@ -253,7 +252,7 @@ namespace Savanna
 
             if(field.SavannaField[AttackerLine,AttackerCharacter].Type == 'E')
             {
-                field.SavannaField[OriginalAttackerHeight, OriginalAttackerWidth].Type = 'E';
+                field.SavannaField[OriginalAttackerHeight, OriginalAttackerWidth] = new Animal();
 
                 field.SavannaField[AttackerLine, AttackerCharacter] = animal;
                 field.SavannaField[AttackerLine, AttackerCharacter].HasMoved = true;
@@ -349,7 +348,7 @@ namespace Savanna
             {
                 if (field.SavannaField[RunnerLine, RunnerCharacter].Type == 'E')
                 {
-                    field.SavannaField[OriginalRunnerHeight, OriginalRunnerWidth].Type = 'E';
+                    field.SavannaField[OriginalRunnerHeight, OriginalRunnerWidth] = new Animal();
 
                     field.SavannaField[RunnerLine, RunnerCharacter] = animal;
                     field.SavannaField[RunnerLine, RunnerCharacter].HasMoved = true;
@@ -386,12 +385,18 @@ namespace Savanna
 
                     if(field.SavannaField[line, character].Health <= 0)
                     {
-                        field.SavannaField[line, character].Type = 'E';
+                        field.SavannaField[line, character] = new Animal();
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// Check if animal is eaten or it eats someone, if animal is eaten it's dead and the eater gets extra health
+        /// </summary>
+        /// <param name="line">Line where the animal is at</param>
+        /// <param name="character">Character in Line where the animal is at</param>
+        /// <param name="field">Animal field where the animals are on</param>
         public void EatAnimalIfCan(int line, int character, Field field)
         {
             int eatRange = 1;
@@ -407,24 +412,65 @@ namespace Savanna
                     {
                         if (field.SavannaField[heightCheck, widthCheck].Type == 'A' && field.SavannaField[line, character].Type == 'L')
                         {
-                            field.SavannaField[heightCheck, widthCheck].Type = 'E';
+                            field.SavannaField[heightCheck, widthCheck] = new Animal();
                             field.SavannaField[line, character].Health += 7;
                             field.SavannaField[line, character].HasMoved = true;
-                            break;
+                            return;
                         }
                         else if (field.SavannaField[heightCheck, widthCheck].Type == 'L' && field.SavannaField[line, character].Type == 'A')
                         {
-                            field.SavannaField[line, character].Type = 'E';
+                            field.SavannaField[line, character] = new Animal();
                             field.SavannaField[heightCheck, widthCheck].Health += 7;
                             field.SavannaField[heightCheck, widthCheck].HasMoved = true;
-                            break;
+                            return;
                         }
                     }
                 }
             }
         }
 
-        public void CheckIfNewAnimalWillBeBorn(Field field)
+        public void CheckIfSameAnimalSpeciesAreClose(int line, int character, Field field)
+        {
+            int partnerRange = 2;
+
+            for (int row = -partnerRange; row < partnerRange; row++)
+            {
+                for (int column = -partnerRange; column < partnerRange; column++)
+                {
+                    int heightCheck = line + row;
+                    int widthCheck = character + column;
+
+                    if (heightCheck > -1 && heightCheck < field.Height && widthCheck > -1 && widthCheck < field.Width)
+                    {
+                        if (field.SavannaField[heightCheck, widthCheck].Type == field.SavannaField[line, character].Type)
+                        {
+                            CheckIfNewAnimalNeedsToSpawn(line, character, row, column, field);
+                        }
+                    }
+                }
+            }
+        }
+
+        public void CheckIfNewAnimalNeedsToSpawn(int originalLine, int originalCharacter, int foundLine, int foundCharacter, Field field)
+        {
+            string[,] localPartnerIds = new string[25, 2];
+            Array.Copy(field.SavannaField[originalLine, originalCharacter].PartnerIDs, localPartnerIds, field.SavannaField[originalLine, originalCharacter].PartnerIDs.Length);
+
+            for (int id = 0; id < 25; id++)
+            {
+                if( field.SavannaField[originalLine, originalCharacter].PartnerIDs[id, 0] == field.SavannaField[foundLine, foundCharacter].ID)
+                {
+                    field.SavannaField[originalLine, originalCharacter].PartnerIDs[id, 1]++;
+
+                    if (field.SavannaField[originalLine, originalCharacter].PartnerIDs[id, 1] == 3)
+                    {
+                        SpawnAnimalNearby(originalLine, originalCharacter, field);
+                    }
+                }
+            }
+        }
+
+        public void SpawnAnimalNearby(int line, int character, Field field)
         {
 
         }

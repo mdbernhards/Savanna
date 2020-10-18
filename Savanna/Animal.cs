@@ -1,4 +1,6 @@
-﻿namespace Savanna
+﻿using System;
+
+namespace Savanna
 {
     /// <summary>
     /// Class that stores information about an animal
@@ -38,12 +40,17 @@
         /// <summary>
         /// ID to identify select animal
         /// </summary>
-        public string ID { get; set; }
+        public int ID { get; set; }
 
         /// <summary>
         /// Saved IDs of partners
         /// </summary>
-        public string[] PartnerIDs { get; set; }
+        public int[,] PartnerIDs { get; set; }
+
+        /// <summary>
+        /// True if animal alive, false if dead
+        /// </summary>
+        public bool Alive { get; set; }
 
         /// <summary>
         /// Class that stores information about an animal, creates empty animal
@@ -51,6 +58,7 @@
         public Animal()
         {
             Type = 'E';
+            Alive = false;
         }
 
         /// <summary>
@@ -62,12 +70,17 @@
         /// <param name="health"> animal starting health</param>
         public Animal(char type, bool canAttack, int visionRange, double health)
         {
+            Random randomInt = new Random();
+
             Type = type;
             CanAttack = canAttack;
             VisionRange = visionRange;
             Health = health;
 
+            ID = randomInt.Next(100000, 999999);
+            PartnerIDs = new int[25,2];
             HasMoved = false;
+            Alive = true;
         }
     }
 }
