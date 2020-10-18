@@ -118,13 +118,13 @@ namespace Savanna
 
             if (key == ConsoleKey.A)
             {
-                animal = new Animal('A', false, 5);
+                animal = new Animal('A', false, 5, 10);
                 SpawnAnimal(field);
             }
 
             if (key == ConsoleKey.L)
             {
-                animal = new Animal('L', true, 10);
+                animal = new Animal('L', true, 10, 10);
                 SpawnAnimal(field);
             }
         }
@@ -367,6 +367,26 @@ namespace Savanna
                 for (int character = 0; character < field.Width; character++)
                 {
                     field.SavannaField[line, character].HasMoved = false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Checks each animal health, if it's 0 or below sets the animal type to 'E' or Empty
+        /// </summary>
+        /// <param name="field">Animal field where the animal heath is checked and dead animals are set</param>
+        public void SetIfAnimalDead(Field field)
+        {
+            for (int line = 0; line < field.Height; line++)
+            {
+                for (int character = 0; character < field.Width; character++)
+                {
+                    field.SavannaField[line, character].Health -= 0.5;
+
+                    if(field.SavannaField[line, character].Health <= 0)
+                    {
+                        field.SavannaField[line, character].Type = 'E';
+                    }
                 }
             }
         }

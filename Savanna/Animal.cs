@@ -31,6 +31,11 @@
         public bool HasMoved { get; set; }
 
         /// <summary>
+        /// Animal health, if 0 or below animal is dead
+        /// </summary>
+        public double Health { get; set; }
+
+        /// <summary>
         /// Class that stores information about an animal, creates empty animal
         /// </summary>
         public Animal()
@@ -44,11 +49,13 @@
         /// <param name="type">Animal type being created</param>
         /// <param name="canAttack">Bool statement, if true can attack</param>
         /// <param name="visionRange">How far can the animal see</param>
-        public Animal(char type, bool canAttack, int visionRange)
+        /// <param name="health"> animal starting health</param>
+        public Animal(char type, bool canAttack, int visionRange, double health)
         {
             Type = type;
             CanAttack = canAttack;
             VisionRange = visionRange;
+            Health = health;
 
             HasMoved = false;
         }
