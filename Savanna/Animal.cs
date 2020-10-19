@@ -59,7 +59,7 @@ namespace Savanna
         {
             Type = 'E';
             Alive = false;
-            PartnerIDs = new int[25, 2];
+            PartnerIDs = new int[100, 2];
             HasMoved = true;
         }
 
@@ -80,7 +80,7 @@ namespace Savanna
             Health = health;
 
             ID = randomInt.Next(100000, 999999);
-            PartnerIDs = new int[25,2];
+            PartnerIDs = new int[100,2];
             HasMoved = false;
             Alive = true;
         }

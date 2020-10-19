@@ -28,7 +28,6 @@ namespace Savanna
                         animal = JsonConvert.DeserializeObject<Animal>(objectCopy);
 
                         EatAnimalIfCan(line, character, field);
-                        CheckIfSameAnimalSpeciesAreClose(line, character, field);
                         CheckVision(line, character, field);
 
                         if (!field.SavannaField[line, character].HasMoved)
@@ -120,13 +119,13 @@ namespace Savanna
 
             if (key == ConsoleKey.A)
             {
-                animal = new Animal('A', false, 5, 30);
+                animal = new Animal('A', false, 7, 15);
                 SpawnAnimal(field);
             }
 
             if (key == ConsoleKey.L)
             {
-                animal = new Animal('L', true, 10, 30);
+                animal = new Animal('L', true, 10, 7);
                 SpawnAnimal(field);
             }
         }
@@ -430,34 +429,6 @@ namespace Savanna
         }
 
         /// <summary>
-        /// Is given animal posision, checks around animal if it's near the same kind of animal. If it is calls function that checks if animal needs to be born
-        /// </summary>
-        /// <param name="line">Line where the animal is at</param>
-        /// <param name="character">Character in Line where the animal is at</param>
-        /// <param name="field">Field object that includes the animal array that has the animals on it</param>
-        public void CheckIfSameAnimalSpeciesAreClose(int line, int character, Field field)
-        {
-            int partnerRange = 2;
-
-            for (int row = -partnerRange; row < partnerRange; row++)
-            {
-                for (int column = -partnerRange; column < partnerRange; column++)
-                {
-                    int heightCheck = line + row;
-                    int widthCheck = character + column;
-
-                    if (heightCheck > -1 && heightCheck < field.Height && widthCheck > -1 && widthCheck < field.Width)
-                    {
-                        if (field.SavannaField[heightCheck, widthCheck].Type == field.SavannaField[line, character].Type)
-                        {
-                            CheckIfNewAnimalNeedsToSpawn(line, character, heightCheck, widthCheck, field);
-                        }
-                    }
-                }
-            }
-        }
-
-        /// <summary>
         /// Checks if animal needs to be born. If it does calls method that spawns animal nearby
         /// </summary>
         /// <param name="originalLine">Line where the Original animal is at</param>
@@ -467,14 +438,14 @@ namespace Savanna
         /// <param name="field">Field object that includes the animal array that has the animals on it</param>
         public void CheckIfNewAnimalNeedsToSpawn(int originalLine, int originalCharacter, int foundLine, int foundCharacter, Field field)
         {
-            int[,] localPartnerIds = new int[25, 2];
-            Array.Copy(field.SavannaField[originalLine, originalCharacter].PartnerIDs, localPartnerIds, localPartnerIds.Length);
+            bool inList = false;
 
-            for (int id = 0; id < 25; id++)
+            for (int id = 0; id < 100; id++)
             {
                 if( field.SavannaField[originalLine, originalCharacter].PartnerIDs[id, 0] == field.SavannaField[foundLine, foundCharacter].ID)
                 {
                     field.SavannaField[originalLine, originalCharacter].PartnerIDs[id, 1]++;
+                    inList = true;
 
                     if (field.SavannaField[originalLine, originalCharacter].PartnerIDs[id, 1] == 3)
                     {
@@ -482,6 +453,18 @@ namespace Savanna
 
                         ResetAnimalPartnersAfterBirth(originalLine, originalCharacter, field);
                         ResetAnimalPartnersAfterBirth(foundLine, foundCharacter, field);
+                    }
+                }
+            }
+
+            if (!inList)
+            {
+                for (int id = 0; id < 100; id++)
+                {
+                    if (field.SavannaField[originalLine, originalCharacter].PartnerIDs[id, 0] == 0)
+                    {
+                        field.SavannaField[originalLine, originalCharacter].PartnerIDs[id, 0] = field.SavannaField[foundLine, foundCharacter].ID;
+                        field.SavannaField[originalLine, originalCharacter].PartnerIDs[id, 1]++;
                     }
                 }
             }
@@ -530,21 +513,71 @@ namespace Savanna
                 {
                     if (field.SavannaField[placeInColumn, placeInRow].Type == 'E')
                     {
-                        field.SavannaField[placeInColumn, placeInRow] = new Animal(field.SavannaField[placeInColumn, placeInRow].Type, field.SavannaField[placeInColumn, placeInRow].CanAttack, field.SavannaField[placeInColumn, placeInRow].VisionRange, 30);
+                        field.SavannaField[placeInColumn, placeInRow] = new Animal(field.SavannaField[line, character].Type, field.SavannaField[line, character].CanAttack, field.SavannaField[line, character].VisionRange, 30);
                         animalSpawned = true;
                     }
                 }
             } while (!animalSpawned);
         }
 
+        /// <summary>
+        /// Resets array that stores the animals partners
+        /// </summary>
+        /// <param name="line">Line where the animal is at</param>
+        /// <param name="character">Character in Line where the animal is at</param>
+        /// <param name="field">Field object that includes the animal array that has the animals on it</param>
         private void ResetAnimalPartnersAfterBirth(int line, int character, Field field)
         {
-            field.SavannaField[line, character].PartnerIDs = new int[25, 2];
+            field.SavannaField[line, character].PartnerIDs = new int[100, 2];
         }
 
-        private void DeleteAnimalPartnersThatAreNotClose()
+        /// <summary>
+        /// Searches for animals in animal array that is in field object. If finds an animal calls function that that checks if animal will be born
+        /// </summary>
+        /// <param name="field">Field object that includes the animal array that is the Savanna game field</param>
+        public void SearchForAnimals(Field field)
         {
+            for (int line = 0; line < field.Height; line++)
+            {
+                for (int character = 0; character < field.Width; character++)
+                {
+                    if (field.SavannaField[line, character].Type != 'E')
+                    {
+                        SearchIfAnimalsAreCloseForBirths(line, character, field);
+                    }
+                }
+            }
+        }
 
+        /// <summary>
+        /// Is given animal posision, checks around animal if it's near the same kind of animal. If it is calls function that checks if animal needs to be born
+        /// </summary>
+        /// <param name="line">Line where the animal is at</param>
+        /// <param name="character">Character in Line where the animal is at</param>
+        /// <param name="field">Field object that includes the animal array that has the animals on it</param>
+        public void SearchIfAnimalsAreCloseForBirths(int line, int character, Field field)
+        {
+            int partnerRange = 2;
+
+            for (int row = -partnerRange; row < partnerRange; row++)
+            {
+                for (int column = -partnerRange; column < partnerRange; column++)
+                {
+                    int heightCheck = line + row;
+                    int widthCheck = character + column;
+
+                    if (heightCheck > -1 && heightCheck < field.Height && widthCheck > -1 && widthCheck < field.Width)
+                    {
+                        if (field.SavannaField[heightCheck, widthCheck].Type == field.SavannaField[line, character].Type)
+                        {
+                            if (line != heightCheck || character != widthCheck)
+                            {
+                                CheckIfNewAnimalNeedsToSpawn(line, character, heightCheck, widthCheck, field);
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
