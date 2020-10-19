@@ -59,6 +59,8 @@ namespace Savanna
         {
             Type = 'E';
             Alive = false;
+            PartnerIDs = new int[25, 2];
+            HasMoved = true;
         }
 
         /// <summary>
