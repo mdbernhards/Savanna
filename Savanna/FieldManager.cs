@@ -8,10 +8,10 @@ namespace Savanna
     /// </summary>
     public class FieldManager
     {
-        private AnimalManager animalManager;
-        private Field field;
+        private readonly AnimalManager animalManager;
+        private readonly Field field;
         private readonly UI ui;
-        private static Timer UpdateTimer;
+        private Timer UpdateTimer;
 
         /// <summary>
         /// Class that manages evrything about the Savanna field, like: field SetUp and timed field update
@@ -40,7 +40,7 @@ namespace Savanna
         }
 
         /// <summary>
-        /// Sets up a timer that fires every half a second
+        /// Sets up a timer that fires repeatedly
         /// </summary>
         public void SetFieldUpdateTimer()
         {

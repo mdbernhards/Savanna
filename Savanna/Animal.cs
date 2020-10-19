@@ -10,7 +10,7 @@ namespace Savanna
         /// <summary>
         /// Type of animal, first letter of the animals name
         /// </summary>
-        public char Type { get; set; }
+        public char Type { get; set; } = 'E';
 
         /// <summary>
         /// If the animal can attack and eat other animals
@@ -23,14 +23,9 @@ namespace Savanna
         public int VisionRange { get; set; }
 
         /// <summary>
-        /// How far can the animal walk in one turn, prob remove
-        /// </summary>
-        public int WalkRange { get; set; }
-
-        /// <summary>
         /// True if animal has moved this turn, false if not. Resets to false every turn
         /// </summary>
-        public bool HasMoved { get; set; }
+        public bool HasMoved { get; set; } = true;
 
         /// <summary>
         /// Animal health, if 0 or below animal is dead
@@ -45,23 +40,17 @@ namespace Savanna
         /// <summary>
         /// Saved IDs of partners
         /// </summary>
-        public int[,] PartnerIDs { get; set; }
+        public int[,] PartnerIDs { get; set; } = new int[100, 2];
 
         /// <summary>
         /// True if animal alive, false if dead
         /// </summary>
-        public bool Alive { get; set; }
+        public bool Alive { get; set; } = false;
 
         /// <summary>
         /// Class that stores information about an animal, creates empty animal
         /// </summary>
-        public Animal()
-        {
-            Type = 'E';
-            Alive = false;
-            PartnerIDs = new int[100, 2];
-            HasMoved = true;
-        }
+        public Animal(){ }
 
         /// <summary>
         /// Class that stores information about an animal, creates animal

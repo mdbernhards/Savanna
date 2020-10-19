@@ -45,7 +45,7 @@ namespace Savanna
         /// <param name="line">Line where the animal is at</param>
         /// <param name="character">Character in line where the animal is at</param>
         /// <param name="field">Field that the animal moves on</param>
-        public void MoveToSide(int line, int character, Field field)
+        private void MoveToSide(int line, int character, Field field)
         {
             Random randomInt = new Random();
 
@@ -86,7 +86,7 @@ namespace Savanna
         /// Spawns animal in random place in savanna
         /// </summary>
         /// <param name="field">Field where the animal will spawn on</param>
-        public void SpawnAnimal(Field field)
+        private void SpawnAnimal(Field field)
         {
             Random randomInt = new Random();
 
@@ -136,7 +136,7 @@ namespace Savanna
         /// <param name="line">Line where the animal is at</param>
         /// <param name="character">Character in line where the animal is at</param>
         /// <param name="field">Field that the animal moves on</param>
-        public void CheckVision(int line, int character, Field field)
+        private void CheckVision(int line, int character, Field field)
         {
             int vision = field.SavannaField[line, character].VisionRange;
 
@@ -172,7 +172,7 @@ namespace Savanna
         /// <param name="AttackerCharacter">Character in line where the attacking animal is at</param>
         /// <param name="AnimalSeenLine">Line where the attacked animal is at</param>
         /// <param name="AnimalSeenCharacter">Character in line where the attacked animal is at</param>
-        public void AttackMove(Field field, int AttackerLine, int AttackerCharacter, int AnimalSeenLine, int AnimalSeenCharacter) 
+        private void AttackMove(Field field, int AttackerLine, int AttackerCharacter, int AnimalSeenLine, int AnimalSeenCharacter) 
         {
             Random randomInt = new Random();
 
@@ -266,7 +266,7 @@ namespace Savanna
         /// <param name="RunnerCharacter">Character in line where the animal running away is at</param>
         /// <param name="AnimalSeenLine">Line where the animal run from is at</param>
         /// <param name="AnimalSeenCharacter">Character in line where the animal run from is at</param>
-        public void RunAwayMove(Field field, int RunnerLine, int RunnerCharacter, int AnimalSeenLine, int AnimalSeenCharacter)
+        private void RunAwayMove(Field field, int RunnerLine, int RunnerCharacter, int AnimalSeenLine, int AnimalSeenCharacter)
         {
             Random randomInt = new Random();  
 
@@ -396,7 +396,7 @@ namespace Savanna
         /// <param name="line">Line where the animal is at</param>
         /// <param name="character">Character in Line where the animal is at</param>
         /// <param name="field">Animal field where the animals are on</param>
-        public void EatAnimalIfCan(int line, int character, Field field)
+        private void EatAnimalIfCan(int line, int character, Field field)
         {
             int eatRange = 1;
 
@@ -436,7 +436,7 @@ namespace Savanna
         /// <param name="foundLine">Line where the animal found near is at</param>
         /// <param name="foundCharacter">Character in Line where the animal found near is at</param>
         /// <param name="field">Field object that includes the animal array that has the animals on it</param>
-        public void CheckIfNewAnimalNeedsToSpawn(int originalLine, int originalCharacter, int foundLine, int foundCharacter, Field field)
+        private void CheckIfNewAnimalNeedsToSpawn(int originalLine, int originalCharacter, int foundLine, int foundCharacter, Field field)
         {
             bool inList = false;
 
@@ -476,7 +476,7 @@ namespace Savanna
         /// <param name="line">Line where the animal is going to be spawned close to</param>
         /// <param name="character">Character in Line where the animal is going to be spawned close to</param>
         /// <param name="field">Field object that includes the animal array that has the animals on it</param>
-        public void SpawnAnimalNearby(int line, int character, Field field)
+        private void SpawnAnimalNearby(int line, int character, Field field)
         {
             Random randomInt = new Random();
 
@@ -555,7 +555,7 @@ namespace Savanna
         /// <param name="line">Line where the animal is at</param>
         /// <param name="character">Character in Line where the animal is at</param>
         /// <param name="field">Field object that includes the animal array that has the animals on it</param>
-        public void SearchIfAnimalsAreCloseForBirths(int line, int character, Field field)
+        private void SearchIfAnimalsAreCloseForBirths(int line, int character, Field field)
         {
             int partnerRange = 2;
 
