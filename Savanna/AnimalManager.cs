@@ -429,6 +429,12 @@ namespace Savanna
             }
         }
 
+        /// <summary>
+        /// Is given animal posision, checks around animal if it's near the same kind of animal. If it is calls function that checks if animal needs to be born
+        /// </summary>
+        /// <param name="line">Line where the animal is at</param>
+        /// <param name="character">Character in Line where the animal is at</param>
+        /// <param name="field">Field object that includes the animal array that has the animals on it</param>
         public void CheckIfSameAnimalSpeciesAreClose(int line, int character, Field field)
         {
             int partnerRange = 2;
@@ -451,6 +457,14 @@ namespace Savanna
             }
         }
 
+        /// <summary>
+        /// Checks if animal needs to be born. If it does calls method that spawns animal nearby
+        /// </summary>
+        /// <param name="originalLine">Line where the Original animal is at</param>
+        /// <param name="originalCharacter">Character in Line where the Original animal is at</param>
+        /// <param name="foundLine">Line where the animal found near is at</param>
+        /// <param name="foundCharacter">Character in Line where the animal found near is at</param>
+        /// <param name="field">Field object that includes the animal array that has the animals on it</param>
         public void CheckIfNewAnimalNeedsToSpawn(int originalLine, int originalCharacter, int foundLine, int foundCharacter, Field field)
         {
             string[,] localPartnerIds = new string[25, 2];
@@ -470,6 +484,12 @@ namespace Savanna
             }
         }
 
+        /// <summary>
+        /// Spawns animal nearby the given animal location
+        /// </summary>
+        /// <param name="line">Line where the animal is going to be spawned close to</param>
+        /// <param name="character">Character in Line where the animal is going to be spawned close to</param>
+        /// <param name="field">Field object that includes the animal array that has the animals on it</param>
         public void SpawnAnimalNearby(int line, int character, Field field)
         {
 
