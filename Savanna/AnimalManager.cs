@@ -21,7 +21,6 @@ namespace Savanna
                 {
                     if (field.SavannaField[line, character].Type != 'E' && !field.SavannaField[line, character].HasMoved)
                     {
-                        EatAnimalIfCan(line, character, field);
                         CheckVision(line, character, field);
 
                         if (!field.SavannaField[line, character].HasMoved)
@@ -105,7 +104,6 @@ namespace Savanna
         public void CheckForAnimalSpawn(Field field)
         {
             ConsoleKey key = default;
-            Animal animal;
 
             do
             {
@@ -116,14 +114,11 @@ namespace Savanna
 
                 if (key == ConsoleKey.A)
                 {
-                    animal = new Animal('A', false, 10, 25);
-                    SpawnAnimal(field, animal);
+                    SpawnAnimal(field, new Antelope());
                 }
-
-                if (key == ConsoleKey.L)
+                else if (key == ConsoleKey.L)
                 {
-                    animal = new Animal('L', true, 15, 10);
-                    SpawnAnimal(field, animal);
+                    SpawnAnimal(field, new Lion());
                 }
             } while (Console.KeyAvailable);
         }
@@ -509,9 +504,14 @@ namespace Savanna
 
                 if (placeInColumn >= 0 && placeInColumn < field.Height && placeInRow >= 0 && placeInRow < field.Width)
                 {
-                    if (field.SavannaField[placeInColumn, placeInRow].Type == 'E')
+                    if (field.SavannaField[placeInColumn, placeInRow].Type == 'E' && field.SavannaField[line, character].Type == 'A')
                     {
-                        field.SavannaField[placeInColumn, placeInRow] = new Animal(field.SavannaField[line, character].Type, field.SavannaField[line, character].CanAttack, field.SavannaField[line, character].VisionRange, 30);
+                        field.SavannaField[placeInColumn, placeInRow] = new Antelope();
+                        animalSpawned = true;
+                    }
+                    else if (field.SavannaField[placeInColumn, placeInRow].Type == 'E' && field.SavannaField[line, character].Type == 'L')
+                    {
+                        field.SavannaField[placeInColumn, placeInRow] = new Lion();
                         animalSpawned = true;
                     }
                 }
@@ -530,7 +530,7 @@ namespace Savanna
         }
 
         /// <summary>
-        /// Searches for animals in animal array that is in field object. If finds an animal calls function that that checks if animal will be born
+        /// Searches for animals in animal array that is in field object. If finds an animal calls methods that check if an animal will be eaten or a new one born
         /// </summary>
         /// <param name="field">Field object that includes the animal array that is the Savanna game field</param>
         public void SearchForAnimals(Field field)
@@ -541,6 +541,7 @@ namespace Savanna
                 {
                     if (field.SavannaField[line, character].Type != 'E')
                     {
+                        EatAnimalIfCan(line, character, field);
                         SearchIfAnimalsAreCloseForBirths(line, character, field);
                     }
                 }

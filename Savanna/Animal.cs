@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Savanna
+﻿namespace Savanna
 {
     /// <summary>
     /// Class that stores information about an animal
@@ -53,25 +51,11 @@ namespace Savanna
         public Animal(){ }
 
         /// <summary>
-        /// Class that stores information about an animal, creates animal
+        /// Virtual method for special action made for beeing overriden
         /// </summary>
-        /// <param name="type">Animal type being created</param>
-        /// <param name="canAttack">Bool statement, if true can attack</param>
-        /// <param name="visionRange">How far can the animal see</param>
-        /// <param name="health"> animal starting health</param>
-        public Animal(char type, bool canAttack, int visionRange, double health)
+        public virtual void SpecialAction()
         {
-            Random randomInt = new Random();
 
-            Type = type;
-            CanAttack = canAttack;
-            VisionRange = visionRange;
-            Health = health;
-
-            ID = randomInt.Next(100000, 999999);
-            PartnerIDs = new int[100,2];
-            HasMoved = false;
-            Alive = true;
         }
     }
 }

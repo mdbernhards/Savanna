@@ -63,9 +63,9 @@ namespace Savanna
             animalManager.CheckForAnimalSpawn(field);
             ui.DrawField(field);
 
+            animalManager.SearchForAnimals(field);
             animalManager.TryToMoveAllAnimals(field);
             animalManager.SetIfAnimalDead(field);
-            animalManager.SearchForAnimals(field);
             animalManager.AnimalReset(field);
         }
     }
