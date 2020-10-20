@@ -47,15 +47,12 @@ namespace Savanna
         /// </summary>
         public bool Alive { get; set; } = false;
 
-        /// <summary>
-        /// Class that stores information about an animal, creates empty animal
-        /// </summary>
-        public Animal(){ }
+        public int SpecialActionCooldown { get; set; } = 5;
 
         /// <summary>
         /// Virtual method for special action made for beeing overriden
         /// </summary>
-        public virtual void SpecialAction()
+        public virtual void SpecialAction(Field field, int firstLine, int firstCharacter, int secondLine, int secondCharacter)
         {
 
         }

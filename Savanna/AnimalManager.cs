@@ -14,7 +14,7 @@ namespace Savanna
         /// Starts the moving process, chooses what type of moving will the animal do: normal, running away, attacking.
         /// </summary>
         /// <param name="field">Field that the animals move on</param>
-        public void TryToMoveAllAnimals(Field field)
+        public void MoveAllAnimals(Field field)
         {
             for (int line = 0; line < field.Height; line++)
             {
@@ -22,11 +22,11 @@ namespace Savanna
                 {
                     if (field.SavannaField[line, character].Type != 'E' && !field.SavannaField[line, character].HasMoved)
                     {
-                        CheckVision(line, character, field);
+                        CheckForSpecialMove(line, character, field);
 
                         if (!field.SavannaField[line, character].HasMoved)
                         {
-                            MoveToSide(line, character, field);
+                            RandomMove(line, character, field);
                         }
                     }
                 }
@@ -39,7 +39,7 @@ namespace Savanna
         /// <param name="line">Line where the animal is at</param>
         /// <param name="character">Character in line where the animal is at</param>
         /// <param name="field">Field that the animal moves on</param>
-        private void MoveToSide(int line, int character, Field field)
+        private void RandomMove(int line, int character, Field field)
         {
             Random randomInt = new Random();
 
@@ -126,12 +126,12 @@ namespace Savanna
         }
 
         /// <summary>
-        /// Checks if animal can see any animal to attack/run away from
+        /// Checks if AttackMove, RunAwayMove or SpecialAction happens
         /// </summary>
         /// <param name="line">Line where the animal is at</param>
         /// <param name="character">Character in line where the animal is at</param>
         /// <param name="field">Field that the animal moves on</param>
-        private void CheckVision(int line, int character, Field field)
+        private void CheckForSpecialMove(int line, int character, Field field)
         {
             int vision = field.SavannaField[line, character].VisionRange;
 
@@ -144,13 +144,21 @@ namespace Savanna
 
                     if (heightCheck > -1 && heightCheck < field.Height && widthCheck > -1 && widthCheck < field.Width)
                     {
-                        if (field.SavannaField[heightCheck, widthCheck].Type == 'A' && field.SavannaField[line, character].Type == 'L')
+                        if(field.SavannaField[line, character].SpecialActionCooldown == 0 && field.SavannaField[heightCheck, widthCheck].Type != 'E')
                         {
+                            field.SavannaField[line, character].SpecialAction(field, line, character, heightCheck, widthCheck);
+                        }
+                        else if (field.SavannaField[heightCheck, widthCheck].Type == 'A' && field.SavannaField[line, character].Type == 'L')
+                        {
+                            field.SavannaField[line, character].SpecialActionCooldown--;
+
                             AttackMove(field, line, character, heightCheck, widthCheck);
                             return;
                         }
                         else if (field.SavannaField[heightCheck, widthCheck].Type == 'L' && field.SavannaField[line, character].Type == 'A')
                         {
+                            field.SavannaField[line, character].SpecialActionCooldown--;
+
                             RunAwayMove(field, line, character, heightCheck, widthCheck);
                             return;
                         }
@@ -163,91 +171,91 @@ namespace Savanna
         /// The animal is Moved closer to another animal it is attacking
         /// </summary>
         /// <param name="field">Object contains animal grid where array where the attack is calculated</param>
-        /// <param name="AttackerLine">Line where the attacking animal is at</param>
-        /// <param name="AttackerCharacter">Character in line where the attacking animal is at</param>
-        /// <param name="AnimalSeenLine">Line where the attacked animal is at</param>
-        /// <param name="AnimalSeenCharacter">Character in line where the attacked animal is at</param>
-        private void AttackMove(Field field, int AttackerLine, int AttackerCharacter, int AnimalSeenLine, int AnimalSeenCharacter) 
+        /// <param name="attackerLine">Line where the attacking animal is at</param>
+        /// <param name="attackerCharacter">Character in line where the attacking animal is at</param>
+        /// <param name="animalSeenLine">Line where the attacked animal is at</param>
+        /// <param name="animalSeenCharacter">Character in line where the attacked animal is at</param>
+        private void AttackMove(Field field, int attackerLine, int attackerCharacter, int animalSeenLine, int animalSeenCharacter) 
         {
             Random randomInt = new Random();
 
-            int OriginalAttackerHeight = AttackerLine;
-            int OriginalAttackerWidth = AttackerCharacter;
+            int OriginalAttackerHeight = attackerLine;
+            int OriginalAttackerWidth = attackerCharacter;
 
-            if (AttackerLine > AnimalSeenLine)
+            if (attackerLine > animalSeenLine)
             {
-                if(AttackerCharacter > AnimalSeenCharacter)
+                if(attackerCharacter > animalSeenCharacter)
                 {
                     if(randomInt.Next(2) == 0)
                     {
-                        AttackerLine--;
+                        attackerLine--;
                     }
                     else
                     {
-                        AttackerCharacter--;
+                        attackerCharacter--;
                     }
                 }
-                else if (AttackerCharacter < AnimalSeenCharacter)
+                else if (attackerCharacter < animalSeenCharacter)
                 {
                     if (randomInt.Next(2) == 0)
                     {
-                        AttackerLine--;
+                        attackerLine--;
                     }
                     else
                     {
-                        AttackerCharacter++;
+                        attackerCharacter++;
                     }
                 }
                 else
                 {
-                    AttackerLine--;
+                    attackerLine--;
                 }
             }
-            else if (AttackerLine < AnimalSeenLine)
+            else if (attackerLine < animalSeenLine)
             {
-                if (AttackerCharacter > AnimalSeenCharacter)
+                if (attackerCharacter > animalSeenCharacter)
                 {
                     if (randomInt.Next(2) == 0)
                     {
-                        AttackerLine++;
+                        attackerLine++;
                     }
                     else
                     {
-                        AttackerCharacter--;
+                        attackerCharacter--;
                     }
                 }
-                else if (AttackerCharacter < AnimalSeenCharacter)
+                else if (attackerCharacter < animalSeenCharacter)
                 {
                     if (randomInt.Next(2) == 0)
                     {
-                        AttackerLine++;
+                        attackerLine++;
                     }
                     else
                     {
-                        AttackerCharacter++;
+                        attackerCharacter++;
                     }
                 }
                 else
                 {
-                    AttackerLine++;
+                    attackerLine++;
                 }
             }
             else
             {
-                if (AttackerCharacter > AnimalSeenCharacter)
+                if (attackerCharacter > animalSeenCharacter)
                 {
-                    AttackerCharacter--;
+                    attackerCharacter--;
                 }
                 else
                 {
-                    AttackerCharacter++;
+                    attackerCharacter++;
                 }
             }
 
-            if(field.SavannaField[AttackerLine,AttackerCharacter].Type == 'E')
+            if(field.SavannaField[attackerLine,attackerCharacter].Type == 'E')
             {
-                field.SavannaField[AttackerLine, AttackerCharacter] = CreateAnimalCopy(field.SavannaField[OriginalAttackerHeight, OriginalAttackerWidth]);
-                field.SavannaField[AttackerLine, AttackerCharacter].HasMoved = true;
+                field.SavannaField[attackerLine, attackerCharacter] = CreateAnimalCopy(field.SavannaField[OriginalAttackerHeight, OriginalAttackerWidth]);
+                field.SavannaField[attackerLine, attackerCharacter].HasMoved = true;
 
                 field.SavannaField[OriginalAttackerHeight, OriginalAttackerWidth] = new Animal();
             }
@@ -257,93 +265,93 @@ namespace Savanna
         /// The animal is Moved farther away from another animal it is running away from
         /// </summary>
         /// <param name="field">Object contains animal grid where array where the attack is calculated</param>
-        /// <param name="RunnerLine">Line where the animal running away is at</param>
-        /// <param name="RunnerCharacter">Character in line where the animal running away is at</param>
-        /// <param name="AnimalSeenLine">Line where the animal run from is at</param>
-        /// <param name="AnimalSeenCharacter">Character in line where the animal run from is at</param>
-        private void RunAwayMove(Field field, int RunnerLine, int RunnerCharacter, int AnimalSeenLine, int AnimalSeenCharacter)
+        /// <param name="runnerLine">Line where the animal running away is at</param>
+        /// <param name="runnerCharacter">Character in line where the animal running away is at</param>
+        /// <param name="animalSeenLine">Line where the animal run from is at</param>
+        /// <param name="animalSeenCharacter">Character in line where the animal run from is at</param>
+        private void RunAwayMove(Field field, int runnerLine, int runnerCharacter, int animalSeenLine, int animalSeenCharacter)
         {
             Random randomInt = new Random();  
 
-            int OriginalRunnerHeight = RunnerLine;
-            int OriginalRunnerWidth = RunnerCharacter;
+            int OriginalRunnerHeight = runnerLine;
+            int OriginalRunnerWidth = runnerCharacter;
 
-            if (RunnerLine > AnimalSeenLine)
+            if (runnerLine > animalSeenLine)
             {
-                if (RunnerCharacter > AnimalSeenCharacter)
+                if (runnerCharacter > animalSeenCharacter)
                 {
                     if (randomInt.Next(2) == 0)
                     {
-                        RunnerLine++;
+                        runnerLine++;
                     }
                     else
                     {
-                        RunnerCharacter++;
+                        runnerCharacter++;
                     }
                 }
-                else if (RunnerCharacter < AnimalSeenCharacter)
+                else if (runnerCharacter < animalSeenCharacter)
                 {
                     if (randomInt.Next(2) == 0)
                     {
-                        RunnerLine++;
+                        runnerLine++;
                     }
                     else
                     {
-                        RunnerCharacter--;
+                        runnerCharacter--;
                     }
                 }
                 else
                 {
-                    RunnerLine++;
+                    runnerLine++;
                 }
             }
-            else if (RunnerLine < AnimalSeenLine)
+            else if (runnerLine < animalSeenLine)
             {
-                if (RunnerCharacter > AnimalSeenCharacter)
+                if (runnerCharacter > animalSeenCharacter)
                 {
                     if (randomInt.Next(2) == 0)
                     {
-                        RunnerLine--;
+                        runnerLine--;
                     }
                     else
                     {
-                        RunnerCharacter++;
+                        runnerCharacter++;
                     }
                 }
-                else if (RunnerCharacter < AnimalSeenCharacter)
+                else if (runnerCharacter < animalSeenCharacter)
                 {
                     if (randomInt.Next(2) == 0)
                     {
-                        RunnerLine--;
+                        runnerLine--;
                     }
                     else
                     {
-                        RunnerCharacter--;
+                        runnerCharacter--;
                     }
                 }
                 else
                 {
-                    RunnerLine--;
+                    runnerLine--;
                 }
             }
             else
             {
-                if (RunnerCharacter > AnimalSeenCharacter)
+                if (runnerCharacter > animalSeenCharacter)
                 {
-                    RunnerCharacter++;
+                    runnerCharacter++;
                 }
                 else
                 {
-                    RunnerCharacter--;
+                    runnerCharacter--;
                 }
             }
 
-            if (RunnerLine > -1 && RunnerLine < field.Height && RunnerCharacter > -1 && RunnerCharacter < field.Width)
+            if (runnerLine > -1 && runnerLine < field.Height && runnerCharacter > -1 && runnerCharacter < field.Width)
             {
-                if (field.SavannaField[RunnerLine, RunnerCharacter].Type == 'E')
+                if (field.SavannaField[runnerLine, runnerCharacter].Type == 'E')
                 {
-                    field.SavannaField[RunnerLine, RunnerCharacter] = CreateAnimalCopy(field.SavannaField[OriginalRunnerHeight, OriginalRunnerWidth]);
-                    field.SavannaField[RunnerLine, RunnerCharacter].HasMoved = true;
+                    field.SavannaField[runnerLine, runnerCharacter] = CreateAnimalCopy(field.SavannaField[OriginalRunnerHeight, OriginalRunnerWidth]);
+                    field.SavannaField[runnerLine, runnerCharacter].HasMoved = true;
 
                     field.SavannaField[OriginalRunnerHeight, OriginalRunnerWidth] = new Animal();
                 }
@@ -376,13 +384,51 @@ namespace Savanna
                 for (int character = 0; character < field.Width; character++)
                 {
                     field.SavannaField[line, character].Health -= 0.5;
-
-                    if(field.SavannaField[line, character].Health <= 0)
+                    field.SavannaField[line, character].Health -= CheckForOverPopulation(line, character, field);
+                   
+                    if (field.SavannaField[line, character].Health <= 0)
                     {
                         field.SavannaField[line, character] = new Animal();
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Returns how much health will be removed from the animal, if there are animals all around it
+        /// </summary>
+        /// <param name="line">Line where the animal is at</param>
+        /// <param name="character">Character in Line where the animal is at</param>
+        /// <param name="field">Field object that includes the animal array that has the animals on it</param>
+        private double CheckForOverPopulation(int line, int character, Field field)
+        {
+            double healthTakenAway = 0;
+
+            if (line > 0 && line + 1 < field.Height && character > 0 && character + 1 < field.Width)
+            {
+                if (field.SavannaField[line + 1, character].Type != 'E' && field.SavannaField[line - 1, character].Type != 'E' && field.SavannaField[line, character + 1].Type != 'E' && field.SavannaField[line, character - 1].Type != 'E')
+                {
+                    healthTakenAway = 5;
+
+                    if(field.SavannaField[line + 1, character + 1].Type != 'E')
+                    {
+                        healthTakenAway += 2;
+                    }
+                    else if (field.SavannaField[line + 1, character - 1].Type != 'E')
+                    {
+                        healthTakenAway += 2;
+                    }
+                    else if (field.SavannaField[line - 1, character + 1].Type != 'E')
+                    {
+                        healthTakenAway += 2;
+                    }
+                    else if (field.SavannaField[line - 1, character - 1].Type != 'E')
+                    {
+                        healthTakenAway += 2;
+                    }
+                }
+            }
+            return healthTakenAway;
         }
 
         /// <summary>
@@ -578,8 +624,21 @@ namespace Savanna
         /// <param name="animal">Animal that will be copied</param>
         private Animal CreateAnimalCopy(Animal animal)
         {
+            Animal newAnimal = default;
             var animalCopy = JsonConvert.SerializeObject(animal);
-            var newAnimal = JsonConvert.DeserializeObject<Animal>(animalCopy);
+
+            if(animal.Type == 'A')
+            {
+                newAnimal = JsonConvert.DeserializeObject<Antelope>(animalCopy);
+            }
+            else if (animal.Type == 'L')
+            {
+                newAnimal = JsonConvert.DeserializeObject<Lion>(animalCopy);
+            }
+            else if (animal.Type == 'E')
+            {
+                newAnimal = JsonConvert.DeserializeObject<Animal>(animalCopy);
+            }
 
             return newAnimal;
         }
