@@ -46,11 +46,11 @@ namespace Savanna
 
                 if (runnerLine == animalSeenLine)
                 {
-                    runnerLine -= (animalSeenLine - runnerLine);
+                    runnerCharacter -= (animalSeenCharacter - runnerCharacter);
                 }
                 else if (runnerCharacter == animalSeenCharacter)
                 {
-                    runnerCharacter -= (animalSeenCharacter - runnerCharacter);
+                    runnerLine -= (animalSeenLine - runnerLine);
                 }
                 else
                 {

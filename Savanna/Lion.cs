@@ -46,21 +46,35 @@ namespace Savanna
 
                 if (attackerLine == animalSeenLine)
                 {
-                    attackerLine += (animalSeenLine - attackerLine);
+                    if (attackerCharacter > animalSeenCharacter)
+                    {
+                        attackerCharacter = animalSeenCharacter + 1;
+                    }
+                    else
+                    {
+                        attackerCharacter = animalSeenCharacter - 1;
+                    }
                 }
                 else if (attackerCharacter == animalSeenCharacter)
                 {
-                    attackerCharacter += (animalSeenCharacter - attackerCharacter);
+                    if (attackerLine > animalSeenLine)
+                    {
+                        attackerLine = animalSeenCharacter + 1;
+                    }
+                    else
+                    {
+                        attackerLine = animalSeenCharacter - 1;
+                    }
                 }
                 else
                 {
                     if (randomInt.Next(2) == 0)
                     {
-                        attackerLine += (animalSeenLine - attackerLine - 1);
+                        attackerCharacter = animalSeenCharacter;
                     }
                     else
                     {
-                        attackerCharacter += (animalSeenCharacter - attackerCharacter - 1);
+                        attackerLine = animalSeenLine;
                     }
                 }
                 if (attackerLine > -1 && attackerLine < field.Height && attackerCharacter > -1 && attackerCharacter < field.Width)
