@@ -1,4 +1,6 @@
-﻿namespace Savanna
+﻿using System.Collections.Generic;
+
+namespace Savanna
 {
     /// <summary>
     /// Class that stores information about an animal
@@ -36,9 +38,9 @@
         public int ID { get; set; }
 
         /// <summary>
-        /// Saved IDs of partners
+        /// Dictionary of saved IDs of partners and how many times they have been next to eachother
         /// </summary>
-        public int[,] PartnerIDs { get; set; } = new int[100, 2];
+        public Dictionary<int, int> PartnerIds { get; set; } = new Dictionary<int, int>();
 
         /// <summary>
         /// True if animal alive, false if dead

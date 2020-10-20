@@ -20,7 +20,6 @@ namespace Savanna
             Health = 25;
 
             ID = randomInt.Next(100000, 999999);
-            PartnerIDs = new int[100, 2];
             HasMoved = false;
             Alive = true;
         }

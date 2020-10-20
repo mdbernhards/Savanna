@@ -431,35 +431,19 @@ namespace Savanna
         /// <param name="field">Field object that includes the animal array that has the animals on it</param>
         private void CheckIfNewAnimalNeedsToSpawn(int originalLine, int originalCharacter, int foundLine, int foundCharacter, Field field)
         {
-            bool inList = false;
-
-            for (int id = 0; id < 100; id++)
+            if (!field.SavannaField[originalLine, originalCharacter].PartnerIds.ContainsKey(field.SavannaField[foundLine, foundCharacter].ID))
             {
-                if( field.SavannaField[originalLine, originalCharacter].PartnerIDs[id, 0] == field.SavannaField[foundLine, foundCharacter].ID)
-                {
-                    field.SavannaField[originalLine, originalCharacter].PartnerIDs[id, 1]++;
-                    inList = true;
-
-                    if (field.SavannaField[originalLine, originalCharacter].PartnerIDs[id, 1] == 3)
-                    {
-                        SpawnAnimalNearby(originalLine, originalCharacter, field);
-
-                        ResetAnimalPartnersAfterBirth(originalLine, originalCharacter, field);
-                        ResetAnimalPartnersAfterBirth(foundLine, foundCharacter, field);
-                    }
-                }
+                field.SavannaField[originalLine, originalCharacter].PartnerIds.Add(field.SavannaField[foundLine, foundCharacter].ID, 0);
             }
 
-            if (!inList)
+            field.SavannaField[originalLine, originalCharacter].PartnerIds[field.SavannaField[foundLine, foundCharacter].ID]++;
+
+            if (field.SavannaField[originalLine, originalCharacter].PartnerIds[field.SavannaField[foundLine, foundCharacter].ID] == 3)
             {
-                for (int id = 0; id < 100; id++)
-                {
-                    if (field.SavannaField[originalLine, originalCharacter].PartnerIDs[id, 0] == 0)
-                    {
-                        field.SavannaField[originalLine, originalCharacter].PartnerIDs[id, 0] = field.SavannaField[foundLine, foundCharacter].ID;
-                        field.SavannaField[originalLine, originalCharacter].PartnerIDs[id, 1]++;
-                    }
-                }
+                SpawnAnimalNearby(originalLine, originalCharacter, field);
+
+                field.SavannaField[originalLine, originalCharacter].PartnerIds.Clear();
+                field.SavannaField[foundLine, foundCharacter].PartnerIds.Clear();
             }
         }
 
@@ -516,17 +500,6 @@ namespace Savanna
                     }
                 }
             } while (!animalSpawned);
-        }
-
-        /// <summary>
-        /// Resets array that stores the animals partners
-        /// </summary>
-        /// <param name="line">Line where the animal is at</param>
-        /// <param name="character">Character in Line where the animal is at</param>
-        /// <param name="field">Field object that includes the animal array that has the animals on it</param>
-        private void ResetAnimalPartnersAfterBirth(int line, int character, Field field)
-        {
-            field.SavannaField[line, character].PartnerIDs = new int[100, 2];
         }
 
         /// <summary>
@@ -589,6 +562,11 @@ namespace Savanna
             var newAnimal = JsonConvert.DeserializeObject<Animal>(objectCopy);
 
             return newAnimal;
+        }
+
+        private void DeleteUnusedAnimals()
+        {
+
         }
     }
 }
