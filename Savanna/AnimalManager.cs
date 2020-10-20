@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 
 namespace Savanna
 {
@@ -79,6 +80,7 @@ namespace Savanna
         /// Spawns animal in random place in savanna
         /// </summary>
         /// <param name="field">Field where the animal will spawn on</param>
+        /// <param name="animal">Animal beeing spawned</param>
         private void SpawnAnimal(Field field, Animal animal)
         {
             Random randomInt = new Random();
@@ -424,27 +426,29 @@ namespace Savanna
         /// <summary>
         /// Checks if animal needs to be born. If it does calls method that spawns animal nearby
         /// </summary>
-        /// <param name="originalLine">Line where the Original animal is at</param>
-        /// <param name="originalCharacter">Character in Line where the Original animal is at</param>
-        /// <param name="foundLine">Line where the animal found near is at</param>
-        /// <param name="foundCharacter">Character in Line where the animal found near is at</param>
+        /// <param name="firstLine">Line where the first animal is at</param>
+        /// <param name="firstCharacter">Character in Line where the first animal is at</param>
+        /// <param name="secondLine">Line where the second animal found near is at</param>
+        /// <param name="secondCharacter">Character in Line where the second animal found near is at</param>
         /// <param name="field">Field object that includes the animal array that has the animals on it</param>
-        private void CheckIfNewAnimalNeedsToSpawn(int originalLine, int originalCharacter, int foundLine, int foundCharacter, Field field)
+        private void CheckIfNewAnimalNeedsToSpawn(int firstLine, int firstCharacter, int secondLine, int secondCharacter, Field field)
         {
-            if (!field.SavannaField[originalLine, originalCharacter].PartnerIds.ContainsKey(field.SavannaField[foundLine, foundCharacter].ID))
-            {
-                field.SavannaField[originalLine, originalCharacter].PartnerIds.Add(field.SavannaField[foundLine, foundCharacter].ID, 0);
-            }
+            
+                    if (!field.SavannaField[firstLine, firstCharacter].PartnerIds.ContainsKey(field.SavannaField[secondLine, secondCharacter].ID))
+                    {
+                        field.SavannaField[firstLine, firstCharacter].PartnerIds.Add(field.SavannaField[secondLine, secondCharacter].ID, 0);
+                    }
 
-            field.SavannaField[originalLine, originalCharacter].PartnerIds[field.SavannaField[foundLine, foundCharacter].ID]++;
+                    field.SavannaField[firstLine, firstCharacter].PartnerIds[field.SavannaField[secondLine, secondCharacter].ID]++;
 
-            if (field.SavannaField[originalLine, originalCharacter].PartnerIds[field.SavannaField[foundLine, foundCharacter].ID] == 3)
-            {
-                SpawnAnimalNearby(originalLine, originalCharacter, field);
+                    if (field.SavannaField[firstLine, firstCharacter].PartnerIds[field.SavannaField[secondLine, secondCharacter].ID] == 3)
+                    {
+                        SpawnAnimalNearby(firstLine, firstCharacter, field);
 
-                field.SavannaField[originalLine, originalCharacter].PartnerIds.Clear();
-                field.SavannaField[foundLine, foundCharacter].PartnerIds.Clear();
-            }
+                        field.SavannaField[firstLine, firstCharacter].PartnerIds.Clear();
+                        field.SavannaField[secondLine, secondCharacter].PartnerIds.Clear();
+                    }
+                
         }
 
         /// <summary>
@@ -515,19 +519,22 @@ namespace Savanna
                     if (field.SavannaField[line, character].Type != 'E')
                     {
                         EatAnimalIfCan(line, character, field);
-                        SearchIfAnimalsAreCloseForBirths(line, character, field);
+                        Dictionary<int,int> dictionaryCopy = CreateDictionaryCopy(field.SavannaField[line, character].PartnerIds);
+
+                        SearchForAnimalsThatAreClose(line, character, field);
+                        DeleteAnimalsFromDictionary(line, character, field, dictionaryCopy);
                     }
                 }
             }
         }
 
         /// <summary>
-        /// Is given animal posision, checks around animal if it's near the same kind of animal. If it is calls function that checks if animal needs to be born
+        /// Is given animal posision, checks around animal if it's near the same kind of animal.If finds animal calls functions 
         /// </summary>
         /// <param name="line">Line where the animal is at</param>
         /// <param name="character">Character in Line where the animal is at</param>
         /// <param name="field">Field object that includes the animal array that has the animals on it</param>
-        private void SearchIfAnimalsAreCloseForBirths(int line, int character, Field field)
+        private void SearchForAnimalsThatAreClose(int line, int character, Field field)
         {
             int partnerRange = 1;
 
@@ -540,14 +547,27 @@ namespace Savanna
 
                     if (heightCheck > -1 && heightCheck < field.Height && widthCheck > -1 && widthCheck < field.Width)
                     {
-                        if (field.SavannaField[heightCheck, widthCheck].Type == field.SavannaField[line, character].Type)
-                        {
-                            if (line != heightCheck || character != widthCheck)
-                            {
-                                CheckIfNewAnimalNeedsToSpawn(line, character, heightCheck, widthCheck, field);
-                            }
-                        }
+                        CheckIfAnimalsAreTheSameType(line, character, field, heightCheck, widthCheck);
                     }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Checks if the two animals are the same type, if they are calls method that checks if new animal should spawn
+        /// </summary>
+        /// <param name="firstLine">Line where the first animal is at</param>
+        /// <param name="firstCharacter">Character in Line where the first animal is at</param>
+        /// <param name="field">Field object that includes the animal array that has the animals on it</param>
+        /// <param name="secondLine">Line where the second animal is at</param>
+        /// <param name="secondCharacter">Character in Line where the second animal is at</param>
+        private void CheckIfAnimalsAreTheSameType(int firstLine, int firstCharacter, Field field, int secondLine, int secondCharacter)
+        {
+            if (field.SavannaField[secondLine, secondCharacter].Type == field.SavannaField[firstLine, firstCharacter].Type)
+            {
+                if (firstLine != secondLine || firstCharacter != secondCharacter)
+                {
+                    CheckIfNewAnimalNeedsToSpawn(firstLine, firstCharacter, secondLine, secondCharacter, field);
                 }
             }
         }
@@ -555,18 +575,46 @@ namespace Savanna
         /// <summary>
         /// Creates a copy of an Animal object and returns it
         /// </summary>
-        /// <param name="animal">The animal that will be copied</param>
+        /// <param name="animal">Animal that will be copied</param>
         private Animal CreateAnimalCopy(Animal animal)
         {
-            var objectCopy = JsonConvert.SerializeObject(animal);
-            var newAnimal = JsonConvert.DeserializeObject<Animal>(objectCopy);
+            var animalCopy = JsonConvert.SerializeObject(animal);
+            var newAnimal = JsonConvert.DeserializeObject<Animal>(animalCopy);
 
             return newAnimal;
         }
 
-        private void DeleteUnusedAnimals()
+        /// <summary>
+        /// Creates a copy of a Dictionary and returns it
+        /// </summary>
+        /// <param name="dictionary">Dictionary that will be copied</param>
+        private Dictionary<int, int> CreateDictionaryCopy(Dictionary<int, int> dictionary)
         {
+            var DictionaryCopy = JsonConvert.SerializeObject(dictionary);
+            var newDictionary = JsonConvert.DeserializeObject<Dictionary<int, int>>(DictionaryCopy);
 
+            return newDictionary;
+        }
+
+        /// <summary>
+        /// Checks animal partnerIDs dictionary with an older copy if animals have been close together, if not they get removed from the list 
+        /// </summary>
+        /// <param name="line">Line where the animal is at</param>
+        /// <param name="character">Character in Line where the animal is at</param>
+        /// <param name="field">Field object that includes the animal array that has the animals on it</param>
+        /// <param name="dictionary">Older copy of the dictionary that was made before the last changes</param>
+        private void DeleteAnimalsFromDictionary(int line, int character, Field field, Dictionary<int,int> dictionary)
+        {
+            foreach (var item in dictionary)
+            {
+                if(field.SavannaField[line, character].PartnerIds.ContainsKey(item.Key))
+                {
+                    if(field.SavannaField[line, character].PartnerIds[item.Key] == dictionary[item.Key])
+                    {
+                        field.SavannaField[line, character].PartnerIds.Remove(item.Key);
+                    }
+                }
+            }
         }
     }
 }
