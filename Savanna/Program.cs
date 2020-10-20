@@ -6,12 +6,11 @@
     public class Program
     {
         /// <summary>
-        /// Starts the program, by creating a gameField object and calling SetUpField method
+        /// Starts the program, by creating a gameField object
         /// </summary>
         public static void Main(string[] args)
         {
-            FieldManager gameField = new FieldManager();
-            gameField.SetUpField();
+            new FieldManager();
         }
     }
 }

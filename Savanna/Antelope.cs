@@ -17,7 +17,7 @@ namespace Savanna
 
             Type = 'A';
             CanAttack = false;
-            VisionRange = 10;
+            VisionRange = 7;
             Health = 25;
 
             ID = randomInt.Next(100000, 999999);
@@ -37,7 +37,7 @@ namespace Savanna
         {
             if (field.SavannaField[animalSeenLine, animalSeenCharacter].CanAttack == false)
             {
-                SpecialActionCooldown += 5;
+                SpecialActionCooldown += 7;
 
                 Random randomInt = new Random();
 
@@ -65,14 +65,14 @@ namespace Savanna
                 }
                 if (runnerLine > -1 && runnerLine < field.Height && runnerCharacter > -1 && runnerCharacter < field.Width)
                 {
-                    if (field.SavannaField[runnerLine, runnerCharacter].Type == 'E')
+                    if (field.SavannaField[runnerLine, runnerCharacter] == null)
                     {
                         var animalCopy = JsonConvert.SerializeObject(field.SavannaField[OriginalAttackerHeight, OriginalAttackerWidth]);
                         var newAnimal = JsonConvert.DeserializeObject<Antelope>(animalCopy);
 
                         field.SavannaField[runnerLine, runnerCharacter] = newAnimal;
                         field.SavannaField[runnerLine, runnerCharacter].HasMoved = true;
-                        field.SavannaField[OriginalAttackerHeight, OriginalAttackerWidth] = new Animal();
+                        field.SavannaField[OriginalAttackerHeight, OriginalAttackerWidth] = null;
                     }
                 }
             }

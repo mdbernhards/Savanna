@@ -5,7 +5,7 @@ namespace Savanna
     /// <summary>
     /// Class that stores information about an animal
     /// </summary>
-    public class Animal
+    public abstract class Animal
     {
         /// <summary>
         /// Type of animal, first letter of the animals name
@@ -55,9 +55,6 @@ namespace Savanna
         /// <summary>
         /// Virtual method for special action made for beeing overriden
         /// </summary>
-        public virtual void SpecialAction(Field field, int firstLine, int firstCharacter, int secondLine, int secondCharacter)
-        {
-
-        }
+        public abstract void SpecialAction(Field field, int firstLine, int firstCharacter, int secondLine, int secondCharacter);
     }
 }

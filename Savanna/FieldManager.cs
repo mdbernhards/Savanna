@@ -21,20 +21,6 @@ namespace Savanna
             animalManager = new AnimalManager();
             field = new Field(40, 100);
             ui = new UI();
-        }
-
-        /// <summary>
-        /// Sets up field to be used by game, starts the updateTimer
-        /// </summary>
-        public void SetUpField()
-        {
-            for (int line = 0; line < field.Height; line++)
-            {
-                for (int character = 0; character < field.Width; character++)
-                {
-                    field.SavannaField[line, character] = new Animal();
-                }
-            }
 
             SetFieldUpdateTimer();
         }

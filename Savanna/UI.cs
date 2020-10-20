@@ -28,7 +28,7 @@ namespace Savanna
 
                 for (int character = 0; character < field.Width; character++)
                 {
-                    if (field.SavannaField[line, character].Type == 'E')
+                    if (field.SavannaField[line, character] == null)
                     {
                         fieldString.Append(" ");
                     }

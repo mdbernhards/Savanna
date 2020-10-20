@@ -17,8 +17,8 @@ namespace Savanna
 
             Type = 'L';
             CanAttack = true;
-            VisionRange = 18;
-            Health = 10;
+            VisionRange = 12;
+            Health = 12.5;
 
             ID = randomInt.Next(100000, 999999);
             HasMoved = false;
@@ -79,14 +79,15 @@ namespace Savanna
                 }
                 if (attackerLine > -1 && attackerLine < field.Height && attackerCharacter > -1 && attackerCharacter < field.Width)
                 {
-                    if (field.SavannaField[attackerLine, attackerCharacter].Type == 'E')
+                    if (field.SavannaField[attackerLine, attackerCharacter] == null)
                     {
                         var animalCopy = JsonConvert.SerializeObject(field.SavannaField[OriginalAttackerHeight, OriginalAttackerWidth]);
                         var newAnimal = JsonConvert.DeserializeObject<Lion>(animalCopy);
 
                         field.SavannaField[attackerLine, attackerCharacter] = newAnimal;
                         field.SavannaField[attackerLine, attackerCharacter].HasMoved = true;
-                        field.SavannaField[OriginalAttackerHeight, OriginalAttackerWidth] = new Animal();
+
+                        field.SavannaField[OriginalAttackerHeight, OriginalAttackerWidth] = null;
                     }
                 }
             }
