@@ -8,7 +8,6 @@ namespace Savanna
     /// </summary>
     public class AnimalManager
     {
-        private Animal animal;
 
         /// <summary>
         /// Starts the moving process, chooses what type of moving will the animal do: normal, running away, attacking.
@@ -16,17 +15,12 @@ namespace Savanna
         /// <param name="field">Field that the animals move on</param>
         public void TryToMoveAllAnimals(Field field)
         {
-            animal = new Animal();
-
             for (int line = 0; line < field.Height; line++)
             {
                 for (int character = 0; character < field.Width; character++)
                 {
                     if (field.SavannaField[line, character].Type != 'E' && !field.SavannaField[line, character].HasMoved)
                     {
-                        var objectCopy = JsonConvert.SerializeObject(field.SavannaField[line, character]);
-                        animal = JsonConvert.DeserializeObject<Animal>(objectCopy);
-
                         EatAnimalIfCan(line, character, field);
                         CheckVision(line, character, field);
 
@@ -74,7 +68,7 @@ namespace Savanna
             {
                 if (field.SavannaField[placeInColumn, placeInRow].Type == 'E')
                 {
-                    field.SavannaField[placeInColumn, placeInRow] = animal;
+                    field.SavannaField[placeInColumn, placeInRow] = CreateAnimalCopy(field.SavannaField[line, character]);
                     field.SavannaField[placeInColumn, placeInRow].HasMoved = true;
 
                     field.SavannaField[line, character] = new Animal();
@@ -86,7 +80,7 @@ namespace Savanna
         /// Spawns animal in random place in savanna
         /// </summary>
         /// <param name="field">Field where the animal will spawn on</param>
-        private void SpawnAnimal(Field field)
+        private void SpawnAnimal(Field field, Animal animal)
         {
             Random randomInt = new Random();
 
@@ -111,23 +105,27 @@ namespace Savanna
         public void CheckForAnimalSpawn(Field field)
         {
             ConsoleKey key = default;
+            Animal animal;
 
-            if (Console.KeyAvailable)
+            do
             {
-                key = Console.ReadKey(true).Key;
-            }
+                if (Console.KeyAvailable)
+                {
+                    key = Console.ReadKey(true).Key;
+                }
 
-            if (key == ConsoleKey.A)
-            {
-                animal = new Animal('A', false, 7, 15);
-                SpawnAnimal(field);
-            }
+                if (key == ConsoleKey.A)
+                {
+                    animal = new Animal('A', false, 10, 25);
+                    SpawnAnimal(field, animal);
+                }
 
-            if (key == ConsoleKey.L)
-            {
-                animal = new Animal('L', true, 10, 7);
-                SpawnAnimal(field);
-            }
+                if (key == ConsoleKey.L)
+                {
+                    animal = new Animal('L', true, 15, 10);
+                    SpawnAnimal(field, animal);
+                }
+            } while (Console.KeyAvailable);
         }
 
         /// <summary>
@@ -251,10 +249,10 @@ namespace Savanna
 
             if(field.SavannaField[AttackerLine,AttackerCharacter].Type == 'E')
             {
-                field.SavannaField[OriginalAttackerHeight, OriginalAttackerWidth] = new Animal();
-
-                field.SavannaField[AttackerLine, AttackerCharacter] = animal;
+                field.SavannaField[AttackerLine, AttackerCharacter] = CreateAnimalCopy(field.SavannaField[OriginalAttackerHeight, OriginalAttackerWidth]);
                 field.SavannaField[AttackerLine, AttackerCharacter].HasMoved = true;
+
+                field.SavannaField[OriginalAttackerHeight, OriginalAttackerWidth] = new Animal();
             }
         }
 
@@ -347,10 +345,10 @@ namespace Savanna
             {
                 if (field.SavannaField[RunnerLine, RunnerCharacter].Type == 'E')
                 {
-                    field.SavannaField[OriginalRunnerHeight, OriginalRunnerWidth] = new Animal();
-
-                    field.SavannaField[RunnerLine, RunnerCharacter] = animal;
+                    field.SavannaField[RunnerLine, RunnerCharacter] = CreateAnimalCopy(field.SavannaField[OriginalRunnerHeight, OriginalRunnerWidth]);
                     field.SavannaField[RunnerLine, RunnerCharacter].HasMoved = true;
+
+                    field.SavannaField[OriginalRunnerHeight, OriginalRunnerWidth] = new Animal();
                 }
             }
         }
@@ -412,14 +410,14 @@ namespace Savanna
                         if (field.SavannaField[heightCheck, widthCheck].Type == 'A' && field.SavannaField[line, character].Type == 'L')
                         {
                             field.SavannaField[heightCheck, widthCheck] = new Animal();
-                            field.SavannaField[line, character].Health += 7;
+                            field.SavannaField[line, character].Health += 10;
                             field.SavannaField[line, character].HasMoved = true;
                             return;
                         }
                         else if (field.SavannaField[heightCheck, widthCheck].Type == 'L' && field.SavannaField[line, character].Type == 'A')
                         {
                             field.SavannaField[line, character] = new Animal();
-                            field.SavannaField[heightCheck, widthCheck].Health += 7;
+                            field.SavannaField[heightCheck, widthCheck].Health += 10;
                             field.SavannaField[heightCheck, widthCheck].HasMoved = true;
                             return;
                         }
@@ -557,7 +555,7 @@ namespace Savanna
         /// <param name="field">Field object that includes the animal array that has the animals on it</param>
         private void SearchIfAnimalsAreCloseForBirths(int line, int character, Field field)
         {
-            int partnerRange = 2;
+            int partnerRange = 1;
 
             for (int row = -partnerRange; row < partnerRange; row++)
             {
@@ -578,6 +576,18 @@ namespace Savanna
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Creates a copy of an Animal object and returns it
+        /// </summary>
+        /// <param name="animal">The animal that will be copied</param>
+        private Animal CreateAnimalCopy(Animal animal)
+        {
+            var objectCopy = JsonConvert.SerializeObject(animal);
+            var newAnimal = JsonConvert.DeserializeObject<Animal>(objectCopy);
+
+            return newAnimal;
         }
     }
 }
