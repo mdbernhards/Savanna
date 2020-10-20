@@ -47,6 +47,9 @@ namespace Savanna
         /// </summary>
         public bool Alive { get; set; } = false;
 
+        /// <summary>
+        /// Cooldown for the special action, so that it can be done only every fifth time attacking or defending
+        /// </summary>
         public int SpecialActionCooldown { get; set; } = 5;
 
         /// <summary>
