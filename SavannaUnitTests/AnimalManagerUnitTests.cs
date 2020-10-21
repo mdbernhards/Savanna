@@ -1,5 +1,4 @@
 ﻿using Xunit;
-using Moq;
 
 namespace SavannaUnitTests
 {
@@ -13,13 +12,14 @@ namespace SavannaUnitTests
         /// </summary>
         private void SetUp()
         {
+
         }
 
         /// <summary>
-        /// Tests if UpdateGrid logic is working correctly on a shape that changes after update
+        /// 
         /// </summary>
         [Fact]
-        public void UpdateGridUnitTestMovingBlinkerShape()
+        public void MoveAllAnimalsUnitTest()
         {
             //Setup
             SetUp();
@@ -27,6 +27,7 @@ namespace SavannaUnitTests
             //Act
 
             //Test
+
         }
     }
 }
