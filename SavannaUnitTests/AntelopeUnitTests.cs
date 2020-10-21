@@ -57,13 +57,13 @@ namespace SavannaUnitTests
         [Fact]
         public void SpecialActionUnitTest()
         {
-            //Setup
+            // Arrange
             SetUp();
 
-            //Act
+            // Act
             field.SavannaField[runnerLine, runnerCharacter].SpecialAction(field, runnerLine, runnerCharacter, animalSeenLine, animalSeenCharacter);
 
-            //Test
+            // Assert
             Assert.Equal(field.SavannaField[expectedRunnerLine, expectedRunnerCharacter].Type, fieldCopy.SavannaField[expectedRunnerLine, expectedRunnerCharacter].Type);
             Assert.Equal(field.SavannaField[expectedRunnerLine, expectedRunnerCharacter].ID, fieldCopy.SavannaField[expectedRunnerLine, expectedRunnerCharacter].ID);
             Assert.Equal(field.SavannaField[expectedRunnerLine, expectedRunnerCharacter].Health, fieldCopy.SavannaField[expectedRunnerLine, expectedRunnerCharacter].Health);
