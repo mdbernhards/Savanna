@@ -9,6 +9,24 @@ namespace Savanna
     /// </summary>
     public class AnimalManager
     {
+        private Random RandomInt;
+
+        /// <summary>
+        /// Class that manages all animal actions like moving, attacking, seeing, spawning and more.
+        /// </summary>
+        public AnimalManager()
+        {
+            RandomInt = new Random();
+        }
+
+        /// <summary>
+        /// Class that manages all animal actions like moving, attacking, seeing, spawning and more, used for unit tests
+        /// </summary>
+        /// <param name="randomInt">Random number generator used for mocking</param>
+        public AnimalManager(Random randomInt)
+        {
+            RandomInt = randomInt;
+        }
 
         /// <summary>
         /// Starts the moving process, chooses what type of moving will the animal do: normal, running away, attacking.
@@ -40,35 +58,33 @@ namespace Savanna
         /// <param name="field">Field that the animal moves on</param>
         private void RandomMove(int line, int character, Field field)
         {
-            Random randomInt = new Random();
-
-            int side = randomInt.Next(4);
-            int placeInColumn = line;
-            int placeInRow = character;
+            int side = RandomInt.Next(4);
+            int newLine = line;
+            int newCharacter = character;
 
             if (side == 0)
             {
-                placeInColumn--;
+                newLine--;
             }
             else if (side == 1)
             {
-                placeInColumn++;
+                newLine++;
             }
             else if (side == 2)
             {
-                placeInRow--;
+                newCharacter--;
             }
             else if (side == 3)
             {
-                placeInRow++;
+                newCharacter++;
             }
 
-            if (placeInColumn >= 0 && placeInColumn < field.Height && placeInRow >= 0 && placeInRow < field.Width && field.SavannaField[line, character] != null)
+            if (newLine >= 0 && newLine < field.Height && newCharacter >= 0 && newCharacter < field.Width && field.SavannaField[line, character] != null)
             {
-                if (field.SavannaField[placeInColumn, placeInRow] == null && !field.SavannaField[line, character].HasMoved)
+                if (field.SavannaField[newLine, newCharacter] == null && !field.SavannaField[line, character].HasMoved)
                 {
-                    field.SavannaField[placeInColumn, placeInRow] = CreateAnimalCopy(field.SavannaField[line, character]);
-                    field.SavannaField[placeInColumn, placeInRow].HasMoved = true;
+                    field.SavannaField[newLine, newCharacter] = CreateAnimalCopy(field.SavannaField[line, character]);
+                    field.SavannaField[newLine, newCharacter].HasMoved = true;
 
                     field.SavannaField[line, character] = null;
                 }
@@ -82,12 +98,10 @@ namespace Savanna
         /// <param name="animal">Animal beeing spawned</param>
         private void SpawnAnimal(Field field, Animal animal)
         {
-            Random randomInt = new Random();
-
             do
             {
-                int height = randomInt.Next(field.SavannaField.GetLength(0));
-                int width = randomInt.Next(field.SavannaField.GetLength(1));
+                int height = RandomInt.Next(field.SavannaField.GetLength(0));
+                int width = RandomInt.Next(field.SavannaField.GetLength(1));
 
                 if (field.SavannaField[height, width] == null)
                 {
@@ -176,8 +190,6 @@ namespace Savanna
         /// <param name="animalSeenCharacter">Character in line where the attacked animal is at</param>
         private void AttackMove(Field field, int attackerLine, int attackerCharacter, int animalSeenLine, int animalSeenCharacter) 
         {
-            Random randomInt = new Random();
-
             int OriginalAttackerHeight = attackerLine;
             int OriginalAttackerWidth = attackerCharacter;
 
@@ -185,7 +197,7 @@ namespace Savanna
             {
                 if(attackerCharacter > animalSeenCharacter)
                 {
-                    if(randomInt.Next(2) == 0)
+                    if(RandomInt.Next(2) == 0)
                     {
                         attackerLine--;
                     }
@@ -196,7 +208,7 @@ namespace Savanna
                 }
                 else if (attackerCharacter < animalSeenCharacter)
                 {
-                    if (randomInt.Next(2) == 0)
+                    if (RandomInt.Next(2) == 0)
                     {
                         attackerLine--;
                     }
@@ -214,7 +226,7 @@ namespace Savanna
             {
                 if (attackerCharacter > animalSeenCharacter)
                 {
-                    if (randomInt.Next(2) == 0)
+                    if (RandomInt.Next(2) == 0)
                     {
                         attackerLine++;
                     }
@@ -225,7 +237,7 @@ namespace Savanna
                 }
                 else if (attackerCharacter < animalSeenCharacter)
                 {
-                    if (randomInt.Next(2) == 0)
+                    if (RandomInt.Next(2) == 0)
                     {
                         attackerLine++;
                     }
@@ -270,8 +282,6 @@ namespace Savanna
         /// <param name="animalSeenCharacter">Character in line where the animal run from is at</param>
         private void RunAwayMove(Field field, int runnerLine, int runnerCharacter, int animalSeenLine, int animalSeenCharacter)
         {
-            Random randomInt = new Random();  
-
             int OriginalRunnerHeight = runnerLine;
             int OriginalRunnerWidth = runnerCharacter;
 
@@ -279,7 +289,7 @@ namespace Savanna
             {
                 if (runnerCharacter > animalSeenCharacter)
                 {
-                    if (randomInt.Next(2) == 0)
+                    if (RandomInt.Next(2) == 0)
                     {
                         runnerLine++;
                     }
@@ -290,7 +300,7 @@ namespace Savanna
                 }
                 else if (runnerCharacter < animalSeenCharacter)
                 {
-                    if (randomInt.Next(2) == 0)
+                    if (RandomInt.Next(2) == 0)
                     {
                         runnerLine++;
                     }
@@ -308,7 +318,7 @@ namespace Savanna
             {
                 if (runnerCharacter > animalSeenCharacter)
                 {
-                    if (randomInt.Next(2) == 0)
+                    if (RandomInt.Next(2) == 0)
                     {
                         runnerLine--;
                     }
@@ -319,7 +329,7 @@ namespace Savanna
                 }
                 else if (runnerCharacter < animalSeenCharacter)
                 {
-                    if (randomInt.Next(2) == 0)
+                    if (RandomInt.Next(2) == 0)
                     {
                         runnerLine--;
                     }
@@ -508,15 +518,13 @@ namespace Savanna
         /// <param name="field">Field object that includes the animal array that has the animals on it</param>
         private void SpawnAnimalNearby(int line, int character, Field field)
         {
-            Random randomInt = new Random();
-
             bool animalSpawned = false;
             int placeInColumn = line;
             int placeInRow = character;
 
             do
             {
-                int side = randomInt.Next(5);
+                int side = RandomInt.Next(5);
 
                 if (side == 0)
                 {
