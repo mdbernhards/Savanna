@@ -129,5 +129,32 @@ namespace SavannaUnitTests
             Assert.NotNull(field.SavannaField[line3, character3]);
             Assert.Null(field.SavannaField[line4, character4]);
         }
+
+        /// <summary>
+        /// Tests if SearchForAnimals Method can find animals and call the correct method EatAnimalIfCan that deletes the Antelope
+        /// </summary>
+        [Fact]
+        public void SerchForAnimalsUnitTest()
+        {
+            // Arrange
+            int line1 = 10;
+            int character1 = 5;
+
+            int line2 = 10;
+            int character2 = 6;
+
+            AnimalManager animalManager = new AnimalManager();
+
+            Field field = new Field(30, 50);
+            field.SavannaField[line1, character1] = new Lion();
+            field.SavannaField[line2, character2] = new Antelope();
+
+            // Act
+            animalManager.SearchForAnimals(field);
+
+            // Assert
+            Assert.NotNull(field.SavannaField[line1, character1]);
+            Assert.Null(field.SavannaField[line2, character2]);
+        }
     }
 }

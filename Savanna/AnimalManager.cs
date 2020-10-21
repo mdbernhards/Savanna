@@ -9,7 +9,7 @@ namespace Savanna
     /// </summary>
     public class AnimalManager
     {
-        private Random RandomInt;
+        private readonly Random RandomInt;
 
         /// <summary>
         /// Class that manages all animal actions like moving, attacking, seeing, spawning and more.
