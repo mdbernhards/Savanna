@@ -17,8 +17,8 @@ namespace Savanna
 
             Type = 'L';
             CanAttack = true;
-            VisionRange = 12;
-            Health = 12.5;
+            VisionRange = 7;
+            Health = 12;
 
             ID = randomInt.Next(100000, 999999);
             HasMoved = false;
@@ -37,7 +37,7 @@ namespace Savanna
         {
             if (field.SavannaField[animalSeenLine, animalSeenCharacter].CanAttack == false)
             {
-                SpecialActionCooldown += 5;
+                SpecialActionCooldown += 7;
 
                 Random randomInt = new Random();
 
@@ -59,11 +59,11 @@ namespace Savanna
                 {
                     if (attackerLine > animalSeenLine)
                     {
-                        attackerLine = animalSeenCharacter + 1;
+                        attackerLine = animalSeenLine + 1;
                     }
                     else
                     {
-                        attackerLine = animalSeenCharacter - 1;
+                        attackerLine = animalSeenLine - 1;
                     }
                 }
                 else

@@ -17,7 +17,7 @@ namespace Savanna
 
             Type = 'A';
             CanAttack = false;
-            VisionRange = 7;
+            VisionRange = 10;
             Health = 25;
 
             ID = randomInt.Next(100000, 999999);
@@ -35,9 +35,9 @@ namespace Savanna
         /// <param name="animalSeenCharacter">Character in line where the animal run from is at</param>
         public override void SpecialAction(Field field, int runnerLine, int runnerCharacter, int animalSeenLine, int animalSeenCharacter)
         {
-            if (field.SavannaField[animalSeenLine, animalSeenCharacter].CanAttack == false)
+            if (field.SavannaField[animalSeenLine, animalSeenCharacter].CanAttack == true)
             {
-                SpecialActionCooldown += 7;
+                SpecialActionCooldown += 5;
 
                 Random randomInt = new Random();
 

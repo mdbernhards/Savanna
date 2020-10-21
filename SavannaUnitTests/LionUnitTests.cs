@@ -1,6 +1,5 @@
 ﻿using Xunit;
 using Savanna;
-using Newtonsoft.Json;
 using System;
 
 namespace SavannaUnitTests
