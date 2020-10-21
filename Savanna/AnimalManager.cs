@@ -150,7 +150,7 @@ namespace Savanna
 
             for (int row = -vision; row < vision; row++)
             {
-                for (int column = -vision; column < vision; column++)
+                for (int column = -vision; column < vision + 1; column++)
                 {
                     int heightCheck = line + row;
                     int widthCheck = character + column;
@@ -423,23 +423,23 @@ namespace Savanna
             {
                 if (field.SavannaField[line + 1, character] != null && field.SavannaField[line - 1, character] != null && field.SavannaField[line, character + 1] != null && field.SavannaField[line, character - 1] != null)
                 {
-                    healthTakenAway = 5;
+                    healthTakenAway = 4;
 
                     if(field.SavannaField[line + 1, character + 1] != null)
                     {
-                        healthTakenAway += 1.5;
+                        healthTakenAway += 1.75;
                     }
                     else if (field.SavannaField[line + 1, character - 1] != null)
                     {
-                        healthTakenAway += 1.5;
+                        healthTakenAway += 1.75;
                     }
                     else if (field.SavannaField[line - 1, character + 1] != null)
                     {
-                        healthTakenAway += 1.5;
+                        healthTakenAway += 1.75;
                     }
                     else if (field.SavannaField[line - 1, character - 1] != null)
                     {
-                        healthTakenAway += 1.5;
+                        healthTakenAway += 1.75;
                     }
                 }
             }
@@ -458,24 +458,24 @@ namespace Savanna
 
             for (int row = -eatRange; row < eatRange; row++)
             {
-                for (int column = -eatRange; column < eatRange; column++)
+                for (int column = -eatRange; column < eatRange + 1; column++)
                 {
                     int heightCheck = line + row;
                     int widthCheck = character + column;
 
                     if (heightCheck > -1 && heightCheck < field.Height && widthCheck > -1 && widthCheck < field.Width && field.SavannaField[line, character] != null && field.SavannaField[heightCheck, widthCheck] != null)
                     {
-                        if (field.SavannaField[heightCheck, widthCheck].Type == 'A' && field.SavannaField[line, character].Type == 'L')
+                        if (field.SavannaField[heightCheck, widthCheck].CanAttack == false && field.SavannaField[line, character].CanAttack == true)
                         {
                             field.SavannaField[heightCheck, widthCheck] = null;
-                            field.SavannaField[line, character].Health += 5;
+                            field.SavannaField[line, character].Health += 4.5;
                             field.SavannaField[line, character].HasMoved = true;
                             return;
                         }
-                        else if (field.SavannaField[heightCheck, widthCheck].Type == 'L' && field.SavannaField[line, character].Type == 'A')
+                        else if (field.SavannaField[heightCheck, widthCheck].CanAttack == true && field.SavannaField[line, character].CanAttack == false)
                         {
                             field.SavannaField[line, character] = null;
-                            field.SavannaField[heightCheck, widthCheck].Health += 10;
+                            field.SavannaField[heightCheck, widthCheck].Health += 4.5;
                             field.SavannaField[heightCheck, widthCheck].HasMoved = true;
                             return;
                         }

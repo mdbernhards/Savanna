@@ -17,8 +17,8 @@ namespace Savanna
 
             Type = 'L';
             CanAttack = true;
-            VisionRange = 7;
-            Health = 12;
+            VisionRange = 5;
+            Health = 10;
 
             ID = randomInt.Next(100000, 999999);
             HasMoved = false;

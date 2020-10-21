@@ -19,7 +19,6 @@ namespace SavannaUnitTests
         private int animalSeenLine;
         private int animalSeenCharacter;
 
-
         /// <summary>
         /// Sets up needed variables, objects and mocks for Antelope class unit tests
         /// </summary>

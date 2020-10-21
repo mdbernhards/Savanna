@@ -133,16 +133,18 @@ namespace SavannaUnitTests
         /// <summary>
         /// Tests if SearchForAnimals Method can find animals and call the correct method EatAnimalIfCan that deletes the Antelope
         /// </summary>
-        [Fact]
-        public void SerchForAnimalsUnitTest()
+        [Theory]
+        [InlineData(10, 5, 10, 6)]
+        [InlineData(10, 5, 10, 4)]
+        [InlineData(10, 5, 11, 5)]
+        [InlineData(10, 5, 9, 5)]
+        [InlineData(10, 5, 11, 6)]
+        [InlineData(10, 5, 11, 4)]
+        [InlineData(10, 5, 9, 4)]
+        [InlineData(10, 5, 9, 6)]
+        public void SearchForAnimalsUnitTest(int line1, int character1, int line2, int character2)
         {
             // Arrange
-            int line1 = 10;
-            int character1 = 5;
-
-            int line2 = 10;
-            int character2 = 6;
-
             AnimalManager animalManager = new AnimalManager();
 
             Field field = new Field(30, 50);

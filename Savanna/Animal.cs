@@ -10,7 +10,7 @@ namespace Savanna
         /// <summary>
         /// Type of animal, first letter of the animals name
         /// </summary>
-        public char Type { get; set; } = 'E';
+        public char Type { get; set; }
 
         /// <summary>
         /// If the animal can attack and eat other animals
@@ -25,7 +25,7 @@ namespace Savanna
         /// <summary>
         /// True if animal has moved this turn, false if not. Resets to false every turn
         /// </summary>
-        public bool HasMoved { get; set; } = true;
+        public bool HasMoved { get; set; }
 
         /// <summary>
         /// Animal health, if 0 or below animal is dead
