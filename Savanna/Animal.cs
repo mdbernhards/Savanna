@@ -43,11 +43,6 @@ namespace Savanna
         public Dictionary<int, int> PartnerIds { get; set; } = new Dictionary<int, int>();
 
         /// <summary>
-        /// True if animal alive, false if dead
-        /// </summary>
-        public bool Alive { get; set; } = false;
-
-        /// <summary>
         /// Cooldown for the special action, so that it can be done only every fifth time attacking or defending
         /// </summary>
         public int SpecialActionCooldown { get; set; } = 5;

@@ -22,7 +22,6 @@ namespace Savanna
 
             ID = randomInt.Next(100000, 999999);
             HasMoved = false;
-            Alive = true;
         }
 
         /// <summary>
