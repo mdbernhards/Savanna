@@ -9,55 +9,27 @@ namespace SavannaUnitTests
     /// </summary>
     public class LionUnitTests
     {
-        private Field field;
-        private Field fieldCopy;
-
-        private int attackerLine;
-        private int attackerCharacter;
-        private int expectedAttackerLine;
-        private int expectedAttackerCharacter;
-        private int animalSeenLine;
-        private int animalSeenCharacter;
-
         /// <summary>
-        /// Sets up needed variables, objects and mocks for Lion class unit tests
+        /// Tests if Lion Special action is working correctly, jumping next to animal they are attacking
         /// </summary>
-        private void SetUp()
+        [Theory]
+        [InlineData(10, 20, 19, 20, 20, 20)]
+        [InlineData(30, 20, 21, 20, 20, 20)]
+        [InlineData(20, 10, 20, 19, 20, 20)]
+        [InlineData(20, 30, 20, 21, 20, 20)]
+        public void SpecialAction_FourLionsOnSidesOfAntelope_AllLionsJumpNextToAntelopes(int attackerLine, int attackerCharacter, int expectedAttackerLine, int expectedAttackerCharacter, int animalSeenLine, int animalSeenCharacter)
         {
-            //Lion position
-            attackerLine = 10;
-            attackerCharacter = 20;
-
-            //Lion position after SpecialAction
-            expectedAttackerLine = 19;
-            expectedAttackerCharacter = 20;
-
-            //Antelope position
-            animalSeenLine = 20;
-            animalSeenCharacter = 20;
-
-            //Setting up field
-            field = new Field(40, 100);
+            // Arrange
+            Field field = new Field(40, 100);
             field.SavannaField[attackerLine, attackerCharacter] = new Lion();
             field.SavannaField[animalSeenLine, animalSeenCharacter] = new Antelope();
 
-            //Setting up fieldCopy
-            fieldCopy = new Field(40, 100);
+            Field fieldCopy = new Field(40, 100);
             Array.Copy(field.SavannaField, fieldCopy.SavannaField, field.SavannaField.Length);
 
             fieldCopy.SavannaField[attackerLine, attackerCharacter] = null;
             fieldCopy.SavannaField[expectedAttackerLine, expectedAttackerCharacter] = new Lion();
             fieldCopy.SavannaField[expectedAttackerLine, expectedAttackerCharacter].ID = field.SavannaField[attackerLine, attackerCharacter].ID;
-        }
-
-        /// <summary>
-        /// Tests if Lion Special action is working correctly
-        /// </summary>
-        [Fact]
-        public void SpecialActionUnitTest()
-        {
-            // Arrange
-            SetUp();
 
             // Act
             field.SavannaField[attackerLine, attackerCharacter].SpecialAction(field, attackerLine, attackerCharacter, animalSeenLine, animalSeenCharacter);

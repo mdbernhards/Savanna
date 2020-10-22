@@ -9,55 +9,27 @@ namespace SavannaUnitTests
     /// </summary>
     public class AntelopeUnitTests
     {
-        private Field field;
-        private Field fieldCopy;
-
-        private int runnerLine;
-        private int runnerCharacter;
-        private int expectedRunnerLine;
-        private int expectedRunnerCharacter;
-        private int animalSeenLine;
-        private int animalSeenCharacter;
-
         /// <summary>
-        /// Sets up needed variables, objects and mocks for Antelope class unit tests
+        /// Tests if Antelope Special action is working correctly
         /// </summary>
-        private void SetUp()
+        [Theory]
+        [InlineData(15, 20, 10, 20, 20, 20)]
+        [InlineData(25, 20, 30, 20, 20, 20)]
+        [InlineData(20, 15, 20, 10, 20, 20)]
+        [InlineData(20, 25, 20, 30, 20, 20)]
+        public void SpecialAction_AntelopeFiveCellsAwayFromLionOnEachSide_AllJumpAway(int runnerLine, int runnerCharacter, int expectedRunnerLine, int expectedRunnerCharacter, int animalSeenLine, int animalSeenCharacter)
         {
-            //Antelope position
-            runnerLine = 15;
-            runnerCharacter = 20;
-
-            //Antelope position after SpecialAction
-            expectedRunnerLine = 10;
-            expectedRunnerCharacter = 20;
-
-            //Lion position
-            animalSeenLine = 20;
-            animalSeenCharacter = 20;
-
-            //Setting up field
-            field = new Field(40, 100);
+            // Arrange
+            Field field = new Field(40, 100);
             field.SavannaField[runnerLine, runnerCharacter] = new Antelope();
             field.SavannaField[animalSeenLine, animalSeenCharacter] = new Lion();
 
-            //Setting up fieldCopy
-            fieldCopy = new Field(40, 100);
+            Field fieldCopy = new Field(40, 100);
             Array.Copy(field.SavannaField, fieldCopy.SavannaField, field.SavannaField.Length);
 
             fieldCopy.SavannaField[runnerLine, runnerCharacter] = null;
             fieldCopy.SavannaField[expectedRunnerLine, expectedRunnerCharacter] = new Antelope();
             fieldCopy.SavannaField[expectedRunnerLine, expectedRunnerCharacter].ID = field.SavannaField[runnerLine, runnerCharacter].ID;
-        }
-
-        /// <summary>
-        /// Tests if Antelope Special action is working correctly
-        /// </summary>
-        [Fact]
-        public void SpecialActionUnitTest()
-        {
-            // Arrange
-            SetUp();
 
             // Act
             field.SavannaField[runnerLine, runnerCharacter].SpecialAction(field, runnerLine, runnerCharacter, animalSeenLine, animalSeenCharacter);

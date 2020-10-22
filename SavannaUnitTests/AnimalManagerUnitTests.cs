@@ -15,7 +15,7 @@ namespace SavannaUnitTests
         /// Tests if MoveAllAnimals method moves one animal correctly
         /// </summary>
         [Fact]
-        public void MoveAllAnimalsUnitTest()
+        public void MoveAllAnimals_OneAnimal_AnimalMovedSuccessfully()
         {
             // Arrange
             int line = 10;
@@ -54,7 +54,7 @@ namespace SavannaUnitTests
         /// Tests if Animals .HasMoved property gets reset to false
         /// </summary>
         [Fact]
-        public void AnimalResetUnitTest()
+        public void AnimalReset_ThreeAnimalsOnField_SetCorrectly()
         {
             // Arrange
             int line1 = 10;
@@ -73,7 +73,6 @@ namespace SavannaUnitTests
             field.SavannaField[line2, character2] = new Antelope();
             field.SavannaField[line3, character3] = new Lion();
 
-
             field.SavannaField[line1, character1].HasMoved = true;
             field.SavannaField[line2, character2].HasMoved = true;
             field.SavannaField[line3, character3].HasMoved = true;
@@ -91,7 +90,7 @@ namespace SavannaUnitTests
         /// Tests if Method SetIfAnimalDead can correctly set animal status
         /// </summary>
         [Fact]
-        public void SetIfAnimalDeadUnitTest()
+        public void SetIfAnimalDead_AllEdgeCases_SetCorrectly()
         {
             // Arrange
             int line1 = 10;
@@ -113,7 +112,6 @@ namespace SavannaUnitTests
             field.SavannaField[line2, character2] = new Antelope();
             field.SavannaField[line3, character3] = new Lion();
             field.SavannaField[line4, character4] = new Antelope();
-
 
             field.SavannaField[line1, character1].Health = 0.5;
             field.SavannaField[line2, character2].Health = 0.55;
@@ -142,7 +140,7 @@ namespace SavannaUnitTests
         [InlineData(10, 5, 11, 4)]
         [InlineData(10, 5, 9, 4)]
         [InlineData(10, 5, 9, 6)]
-        public void SearchForAnimalsUnitTest(int line1, int character1, int line2, int character2)
+        public void SearchForAnimals_AllCellsAroundALion_EveryAntelopeEaten(int line1, int character1, int line2, int character2)
         {
             // Arrange
             AnimalManager animalManager = new AnimalManager();
