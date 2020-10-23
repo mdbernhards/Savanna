@@ -18,8 +18,8 @@ namespace Savanna
             Console.Clear();
             StringBuilder fieldString = new StringBuilder();
 
-            DirectoryInfo d = new DirectoryInfo(@"C:\Users\martins.d.bernhards\source\repos\Savanna\dllFiles");
-            FileInfo[] Files = d.GetFiles();
+            GetFiles getFiles = new GetFiles();
+            FileInfo[] Files = getFiles.GetDllFileInfo();
 
             string spawnText = " Spawn ";
 

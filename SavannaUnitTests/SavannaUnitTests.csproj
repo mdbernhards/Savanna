@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Antelope\Antelope.csproj" />
     <ProjectReference Include="..\Savanna\Savanna.csproj" />
   </ItemGroup>
 

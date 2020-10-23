@@ -1,8 +1,7 @@
-﻿using Antilopes;
-using Lions;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Savanna
 {
@@ -97,11 +96,17 @@ namespace Savanna
         /// Spawns animal in random place in savanna
         /// </summary>
         /// <param name="field">Field where the animal will spawn on</param>
-        /// <param name="animal">Animal beeing spawned</param>
-        private void SpawnAnimal(Field field, Animal animal)
+        /// <param name="animalName">Animal named used for creating the animal</param>
+        private void SpawnAnimal(Field field, string animalName)
         {
             do
             {
+                string animalTypeString = animalName + "s." + animalName + ", " + animalName;
+
+                Type type = Type.GetType(animalTypeString);
+                object o = Activator.CreateInstance(type);
+                Animal animal = (Animal)o;
+
                 int height = RandomInt.Next(field.SavannaField.GetLength(0));
                 int width = RandomInt.Next(field.SavannaField.GetLength(1));
 
@@ -122,6 +127,9 @@ namespace Savanna
         {
             ConsoleKey key = default;
 
+            GetFiles getFiles = new GetFiles();
+            FileInfo[] Files = getFiles.GetDllFileInfo();
+
             do
             {
                 if (Console.KeyAvailable)
@@ -129,17 +137,15 @@ namespace Savanna
                     key = Console.ReadKey(true).Key;
                 }
 
-                if (key == ConsoleKey.A)
+                foreach (FileInfo filePath in Files)
                 {
-                    SpawnAnimal(field, new Antelope());
-                }
-                else if (key == ConsoleKey.L)
-                {
-                    SpawnAnimal(field, new Lion());
-                }
-                else if (key == ConsoleKey.R)
-                {
-                    SpawnAnimal(field, new Rhino());
+                    string animalName = filePath.Name;
+                    animalName = animalName.Remove(animalName.Length - 4);
+
+                    if (key.ToString() == filePath.Name[0].ToString())
+                    {
+                        SpawnAnimal(field, animalName);
+                    }
                 }
             } while (Console.KeyAvailable);
         }

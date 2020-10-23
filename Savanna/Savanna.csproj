@@ -11,10 +11,7 @@
 
   <ItemGroup>
     <Reference Include="Antelope">
-      <HintPath>..\dllfiles\Antelope.dll</HintPath>
-    </Reference>
-    <Reference Include="Antilope">
-      <HintPath>..\dllFiles\Antilope.dll</HintPath>
+      <HintPath>..\dllFiles\Antelope.dll</HintPath>
     </Reference>
     <Reference Include="Lion">
       <HintPath>..\dllFiles\Lion.dll</HintPath>

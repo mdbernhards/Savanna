@@ -1,4 +1,6 @@
-﻿using Savanna;
+﻿using Antelopes;
+using Lions;
+using Savanna;
 using System;
 using Xunit;
 
@@ -28,8 +30,10 @@ namespace SavannaUnitTests
             Array.Copy(field.SavannaField, fieldCopy.SavannaField, field.SavannaField.Length);
 
             fieldCopy.SavannaField[runnerLine, runnerCharacter] = null;
-            fieldCopy.SavannaField[expectedRunnerLine, expectedRunnerCharacter] = new Antelope();
-            fieldCopy.SavannaField[expectedRunnerLine, expectedRunnerCharacter].ID = field.SavannaField[runnerLine, runnerCharacter].ID;
+            fieldCopy.SavannaField[expectedRunnerLine, expectedRunnerCharacter] = new Antelope
+            {
+                ID = field.SavannaField[runnerLine, runnerCharacter].ID
+            };
 
             // Act
             field.SavannaField[runnerLine, runnerCharacter].SpecialAction(field, runnerLine, runnerCharacter, animalSeenLine, animalSeenCharacter);
