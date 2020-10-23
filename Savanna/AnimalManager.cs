@@ -127,7 +127,7 @@ namespace Savanna
         {
             ConsoleKey key = default;
 
-            GetFiles getFiles = new GetFiles();
+            GetFileInfo getFiles = new GetFileInfo();
             FileInfo[] Files = getFiles.GetDllFileInfo();
 
             do

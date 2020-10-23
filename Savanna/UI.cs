@@ -18,7 +18,7 @@ namespace Savanna
             Console.Clear();
             StringBuilder fieldString = new StringBuilder();
 
-            GetFiles getFiles = new GetFiles();
+            GetFileInfo getFiles = new GetFileInfo();
             FileInfo[] Files = getFiles.GetDllFileInfo();
 
             string spawnText = " Spawn ";

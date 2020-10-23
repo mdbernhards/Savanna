@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Remoting;
+﻿using System.Collections.Generic;
 
 namespace Savanna
 {
@@ -52,6 +50,11 @@ namespace Savanna
         /// <summary>
         /// Virtual method for special action made for beeing overriden
         /// </summary>
+        /// <param name="field">Object that has the array that animals are on</param>
+        /// <param name="firstLine">Line where the animal doing the specialAction is</param>
+        /// <param name="firstCharacter">Character in line where the animal doing the specialAction is</param>
+        /// <param name="secondLine">Line where the second animal is</param>
+        /// <param name="secondCharacter">Character in line where the second animal is</param>
         public abstract void SpecialAction(Field field, int firstLine, int firstCharacter, int secondLine, int secondCharacter);
     }
 }

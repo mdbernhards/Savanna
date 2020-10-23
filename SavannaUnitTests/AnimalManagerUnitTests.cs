@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
-using Savanna;
-using Moq;
+﻿using System;
 using Xunit;
-using System;
-using Lions;
+using Moq;
+using Newtonsoft.Json;
+using Savanna;
 using Antelopes;
+using Lions;
 
 namespace SavannaUnitTests
 {
@@ -133,6 +133,10 @@ namespace SavannaUnitTests
         /// <summary>
         /// Tests if SearchForAnimals Method can find animals and call the correct method EatAnimalIfCan that deletes the Antelope
         /// </summary>
+        /// <param name="line1">Line where the first animal (Lion) is</param>
+        /// <param name="character1">Character in line where the first animal (Lion) is</param>
+        /// <param name="line2">Line where the second animal (Antelope) is</param>
+        /// <param name="character2">Character in line where the second animal (Antelope) is</param>
         [Theory]
         [InlineData(10, 5, 10, 6)]
         [InlineData(10, 5, 10, 4)]
