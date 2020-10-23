@@ -9,4 +9,16 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Antelope">
+      <HintPath>..\dllfiles\Antelope.dll</HintPath>
+    </Reference>
+    <Reference Include="Antilope">
+      <HintPath>..\dllFiles\Antilope.dll</HintPath>
+    </Reference>
+    <Reference Include="Lion">
+      <HintPath>..\dllFiles\Lion.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

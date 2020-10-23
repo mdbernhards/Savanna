@@ -3,6 +3,8 @@ using Savanna;
 using Moq;
 using Xunit;
 using System;
+using Antilopes;
+using Lions;
 
 namespace SavannaUnitTests
 {

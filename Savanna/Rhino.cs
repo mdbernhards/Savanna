@@ -4,34 +4,34 @@ using System;
 namespace Savanna
 {
     /// <summary>
-    /// Class that stores information about an Antelope
+    /// Class that stores information about a Rhino
     /// </summary>
-    public class Antelope : Animal
+    public class Rhino : Animal
     {
         /// <summary>
-        /// Class that stores information about an Antelope, creates an Antelope
+        /// Class that stores information about an Rhino, creates an Rhino
         /// </summary>
-        public Antelope()
+        public Rhino()
         {
             Random randomInt = new Random();
 
-            Type = 'A';
+            Type = 'R';
             CanAttack = false;
-            VisionRange = 10;
-            Health = 25;
+            VisionRange = 12;
+            Health = 30;
 
             ID = randomInt.Next(100000, 999999);
             HasMoved = false;
         }
 
         /// <summary>
-        /// Antelope special action, runs away the same amount of cells the animalSeen is away
+        /// Rhino special action, runs up to animal that can attack and pushes it away
         /// </summary>
         /// <param name="field">Object contains animal grid where array where the attack is calculated</param>
-        /// <param name="runnerLine">Line where the animal running away is at</param>
-        /// <param name="runnerCharacter">Character in line where the animal running away is at</param>
-        /// <param name="animalSeenLine">Line where the animal run from is at</param>
-        /// <param name="animalSeenCharacter">Character in line where the animal run from is at</param>
+        /// <param name="runnerLine">Line where the Rhino is at</param>
+        /// <param name="runnerCharacter">Character in line where the Rhino is at</param>
+        /// <param name="animalSeenLine">Line where the aggressive animal is at</param>
+        /// <param name="animalSeenCharacter">Character in line where the aggressive animal is at</param>
         public override void SpecialAction(Field field, int runnerLine, int runnerCharacter, int animalSeenLine, int animalSeenCharacter)
         {
             if (field.SavannaField[animalSeenLine, animalSeenCharacter].CanAttack == true)
@@ -67,7 +67,7 @@ namespace Savanna
                     if (field.SavannaField[runnerLine, runnerCharacter] == null)
                     {
                         var animalCopy = JsonConvert.SerializeObject(field.SavannaField[OriginalAttackerHeight, OriginalAttackerWidth]);
-                        var newAnimal = JsonConvert.DeserializeObject<Antelope>(animalCopy);
+                        var newAnimal = JsonConvert.DeserializeObject<Rhino>(animalCopy);
 
                         field.SavannaField[runnerLine, runnerCharacter] = newAnimal;
                         field.SavannaField[runnerLine, runnerCharacter].HasMoved = true;

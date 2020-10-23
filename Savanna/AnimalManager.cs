@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using Antilopes;
+using Lions;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -135,6 +137,10 @@ namespace Savanna
                 {
                     SpawnAnimal(field, new Lion());
                 }
+                else if (key == ConsoleKey.R)
+                {
+                    SpawnAnimal(field, new Rhino());
+                }
             } while (Console.KeyAvailable);
         }
 
@@ -161,14 +167,14 @@ namespace Savanna
                         {
                             field.SavannaField[line, character].SpecialAction(field, line, character, heightCheck, widthCheck);
                         }
-                        else if (field.SavannaField[heightCheck, widthCheck].Type == 'A' && field.SavannaField[line, character].Type == 'L')
+                        else if (!field.SavannaField[heightCheck, widthCheck].CanAttack && field.SavannaField[line, character].CanAttack)
                         {
                             field.SavannaField[line, character].SpecialActionCooldown--;
 
                             AttackMove(field, line, character, heightCheck, widthCheck);
                             return;
                         }
-                        else if (field.SavannaField[heightCheck, widthCheck].Type == 'L' && field.SavannaField[line, character].Type == 'A')
+                        else if (field.SavannaField[heightCheck, widthCheck].CanAttack && !field.SavannaField[line, character].CanAttack)
                         {
                             field.SavannaField[line, character].SpecialActionCooldown--;
 
@@ -465,14 +471,14 @@ namespace Savanna
 
                     if (heightCheck > -1 && heightCheck < field.Height && widthCheck > -1 && widthCheck < field.Width && field.SavannaField[line, character] != null && field.SavannaField[heightCheck, widthCheck] != null)
                     {
-                        if (field.SavannaField[heightCheck, widthCheck].CanAttack == false && field.SavannaField[line, character].CanAttack == true)
+                        if (!field.SavannaField[heightCheck, widthCheck].CanAttack && field.SavannaField[line, character].CanAttack)
                         {
                             field.SavannaField[heightCheck, widthCheck] = null;
                             field.SavannaField[line, character].Health += 4.5;
                             field.SavannaField[line, character].HasMoved = true;
                             return;
                         }
-                        else if (field.SavannaField[heightCheck, widthCheck].CanAttack == true && field.SavannaField[line, character].CanAttack == false)
+                        else if (field.SavannaField[heightCheck, widthCheck].CanAttack && !field.SavannaField[line, character].CanAttack)
                         {
                             field.SavannaField[line, character] = null;
                             field.SavannaField[heightCheck, widthCheck].Health += 4.5;
@@ -549,16 +555,8 @@ namespace Savanna
 
                 if (placeInColumn >= 0 && placeInColumn < field.Height && placeInRow >= 0 && placeInRow < field.Width && field.SavannaField[line, character] != null)
                 {
-                    if (field.SavannaField[line, character].Type == 'A')
-                    {
-                        field.SavannaField[placeInColumn, placeInRow] = new Antelope();
-                        animalSpawned = true;
-                    }
-                    else if (field.SavannaField[line, character].Type == 'L')
-                    {
-                        field.SavannaField[placeInColumn, placeInRow] = new Lion();
-                        animalSpawned = true;
-                    }
+                    field.SavannaField[placeInColumn, placeInRow] = (Animal)Activator.CreateInstance(field.SavannaField[line, character].GetType());
+                    animalSpawned = true;
                 }
             } while (!animalSpawned);
         }
@@ -636,20 +634,11 @@ namespace Savanna
         /// Creates a copy of an Animal object and returns it
         /// </summary>
         /// <param name="animal">Animal that will be copied</param>
-        private Animal CreateAnimalCopy(Animal animal)
+        private dynamic CreateAnimalCopy(Animal animal)
         {
-            Animal newAnimal = default;
             var animalCopy = JsonConvert.SerializeObject(animal);
-
-            if(animal.Type == 'A')
-            {
-                newAnimal = JsonConvert.DeserializeObject<Antelope>(animalCopy);
-            }
-            else if (animal.Type == 'L')
-            {
-                newAnimal = JsonConvert.DeserializeObject<Lion>(animalCopy);
-            }
-
+            object newAnimal = JsonConvert.DeserializeObject(animalCopy, animal.GetType());
+            
             return newAnimal;
         }
 

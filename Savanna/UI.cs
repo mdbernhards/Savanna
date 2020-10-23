@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 
 namespace Savanna
@@ -17,8 +18,23 @@ namespace Savanna
             Console.Clear();
             StringBuilder fieldString = new StringBuilder();
 
-            fieldString.AppendLine(" Spawn Antelope by pressing A");
-            fieldString.AppendLine(" Spawn Lion by pressing L");
+            DirectoryInfo d = new DirectoryInfo(@"C:\Users\martins.d.bernhards\source\repos\Savanna\dllFiles");
+            FileInfo[] Files = d.GetFiles();
+
+            string spawnText = " Spawn ";
+
+            foreach (FileInfo filePath in Files)
+            {
+                string animalName = filePath.Name;
+                animalName = animalName.Remove(animalName.Length - 4);
+
+                spawnText = spawnText + animalName + ", ";
+            }
+
+            spawnText = spawnText.Remove(spawnText.Length - 2);
+            spawnText += " by pressing the first letter in its name";
+
+            fieldString.AppendLine(spawnText);
             fieldString.AppendLine();
             fieldString.AppendLine(" + -------------------------------------------------------------------------------------------------- +");
 
