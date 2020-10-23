@@ -7,10 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Savanna", "Savanna\Savanna.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SavannaUnitTests", "SavannaUnitTests\SavannaUnitTests.csproj", "{78572D7E-E7F6-40F3-8787-6F1F30B2D83A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rhino", "Rhino\Rhino.csproj", "{A1A717FD-E1C4-457D-A31F-845B0F43421D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Antelope", "Antelope\Antelope.csproj", "{C32E64B0-816C-41F1-9F0B-5F7CF3D99029}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,14 +21,6 @@ Global
 		{78572D7E-E7F6-40F3-8787-6F1F30B2D83A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78572D7E-E7F6-40F3-8787-6F1F30B2D83A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78572D7E-E7F6-40F3-8787-6F1F30B2D83A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A1A717FD-E1C4-457D-A31F-845B0F43421D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A1A717FD-E1C4-457D-A31F-845B0F43421D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A1A717FD-E1C4-457D-A31F-845B0F43421D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A1A717FD-E1C4-457D-A31F-845B0F43421D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C32E64B0-816C-41F1-9F0B-5F7CF3D99029}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C32E64B0-816C-41F1-9F0B-5F7CF3D99029}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C32E64B0-816C-41F1-9F0B-5F7CF3D99029}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C32E64B0-816C-41F1-9F0B-5F7CF3D99029}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

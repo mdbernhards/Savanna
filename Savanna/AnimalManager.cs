@@ -470,7 +470,7 @@ namespace Savanna
 
             for (int row = -eatRange; row < eatRange; row++)
             {
-                for (int column = -eatRange; column < eatRange + 1; column++)
+                for (int column = -eatRange; column < eatRange; column++)
                 {
                     int heightCheck = line + row;
                     int widthCheck = character + column;

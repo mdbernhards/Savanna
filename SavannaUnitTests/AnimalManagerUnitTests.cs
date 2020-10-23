@@ -139,9 +139,7 @@ namespace SavannaUnitTests
         [InlineData(10, 5, 11, 5)]
         [InlineData(10, 5, 9, 5)]
         [InlineData(10, 5, 11, 6)]
-        [InlineData(10, 5, 11, 4)]
         [InlineData(10, 5, 9, 4)]
-        [InlineData(10, 5, 9, 6)]
         public void SearchForAnimals_AllCellsAroundALion_EveryAntelopeEaten(int line1, int character1, int line2, int character2)
         {
             // Arrange

@@ -16,6 +16,9 @@
     <Reference Include="Lion">
       <HintPath>..\dllFiles\Lion.dll</HintPath>
     </Reference>
+    <Reference Include="Rhino">
+      <HintPath>..\dllFiles\Rhino.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
