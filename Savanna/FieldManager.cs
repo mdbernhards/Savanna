@@ -9,19 +9,19 @@ namespace Savanna
     /// </summary>
     public class FieldManager : IFieldManager
     {
-        private readonly AnimalManager animalManager;
-        private readonly Field field;
-        private readonly UI ui;
+        private readonly IAnimalManager _animalManager;
+        private readonly IUI _ui;
+        private readonly Field _field;
         private Timer UpdateTimer;
 
         /// <summary>
         /// Class that manages evrything about the Savanna field, like: field SetUp and timed field update
         /// </summary>
-        public FieldManager()
+        public FieldManager(IAnimalManager animalManager, IUI ui)
         {
-            animalManager = new AnimalManager();
-            field = new Field(40, 100);
-            ui = new UI();
+            _animalManager = animalManager;
+            _field = new Field(40, 100);
+            _ui = ui;
 
             SetFieldUpdateTimer();
         }
@@ -47,13 +47,13 @@ namespace Savanna
         /// <param name="source">Used by timer</param>
         public void FieldUpdate(Object source, ElapsedEventArgs e)
         {
-            animalManager.CheckForAnimalSpawn(field);
-            ui.DrawField(field);
+            _animalManager.CheckForAnimalSpawn(_field);
+            _ui.DrawField(_field);
 
-            animalManager.SearchForAnimals(field);
-            animalManager.MoveAllAnimals(field);
-            animalManager.SetIfAnimalDead(field);
-            animalManager.AnimalReset(field);
+            _animalManager.SearchForAnimals(_field);
+            _animalManager.MoveAllAnimals(_field);
+            _animalManager.SetIfAnimalDead(_field);
+            _animalManager.AnimalReset(_field);
         }
     }
 }

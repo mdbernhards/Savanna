@@ -3,7 +3,7 @@
     /// <summary>
     /// Interface of class that displays all the needed information to the user
     /// </summary>
-    interface IUI
+    public interface IUI
     {
         /// <summary>
         /// When called draws the grid with given information

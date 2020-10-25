@@ -1,6 +1,6 @@
 ﻿namespace Savanna.Interfaces
 {
-    interface IAnimalManager
+    public interface IAnimalManager
     {
         /// <summary>
         /// Starts the moving process, chooses what type of moving will the animal do: normal, running away, attacking.
