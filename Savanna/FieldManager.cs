@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Savanna.Interfaces;
+using System;
 using System.Timers;
 
 namespace Savanna
@@ -6,7 +7,7 @@ namespace Savanna
     /// <summary>
     /// Class that manages evrything about the Savanna field, like: field SetUp and timed field update
     /// </summary>
-    public class FieldManager
+    public class FieldManager : IFieldManager
     {
         private readonly AnimalManager animalManager;
         private readonly Field field;

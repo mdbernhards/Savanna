@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Savanna.Interfaces;
+using System;
 using System.IO;
 using System.Text;
 
@@ -7,7 +8,7 @@ namespace Savanna
     /// <summary>
     /// Class that displays all the needed information to the user
     /// </summary>
-    public class UI
+    public class UI : IUI
     {
         /// <summary>
         /// When called draws the grid with given information

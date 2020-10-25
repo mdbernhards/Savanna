@@ -1,7 +1,6 @@
 ﻿using System;
 using Xunit;
 using Savanna;
-using Antelopes;
 using Lions;
 using Rhinos;
 

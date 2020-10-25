@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Savanna.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +9,7 @@ namespace Savanna
     /// <summary>
     /// Class that manages all animal actions like moving, attacking, seeing, spawning and more.
     /// </summary>
-    public class AnimalManager
+    public class AnimalManager : IAnimalManager
     {
         private readonly Random RandomInt;
 
