@@ -1,5 +1,8 @@
 ﻿namespace Savanna.Interfaces
 {
+    /// <summary>
+    /// Interface for class that manages all animal actions like moving, attacking, seeing, spawning and more.
+    /// </summary>
     public interface IAnimalManager
     {
         /// <summary>

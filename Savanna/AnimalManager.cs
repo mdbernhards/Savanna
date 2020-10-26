@@ -170,7 +170,7 @@ namespace Savanna
 
                     if (heightCheck > -1 && heightCheck < field.Height && widthCheck > -1 && widthCheck < field.Width && field.SavannaField[heightCheck, widthCheck] != null && field.SavannaField[line, character] != null)
                     {
-                        if(field.SavannaField[line, character].SpecialActionCooldown == 0)
+                        if (field.SavannaField[line, character].SpecialActionCooldown == 0)
                         {
                             field.SavannaField[line, character].SpecialAction(field, line, character, heightCheck, widthCheck);
                         }
@@ -208,7 +208,7 @@ namespace Savanna
 
             if (attackerLine > animalSeenLine)
             {
-                if(attackerCharacter > animalSeenCharacter)
+                if (attackerCharacter > animalSeenCharacter)
                 {
                     if(RandomInt.Next(2) == 0)
                     {
@@ -276,7 +276,7 @@ namespace Savanna
                 }
             }
 
-            if(field.SavannaField[attackerLine,attackerCharacter] == null)
+            if (field.SavannaField[attackerLine,attackerCharacter] == null)
             {
                 field.SavannaField[attackerLine, attackerCharacter] = CreateAnimalCopy(field.SavannaField[OriginalAttackerHeight, OriginalAttackerWidth]);
                 field.SavannaField[attackerLine, attackerCharacter].HasMoved = true;
@@ -438,7 +438,7 @@ namespace Savanna
                 {
                     healthTakenAway = 4;
 
-                    if(field.SavannaField[line + 1, character + 1] != null)
+                    if (field.SavannaField[line + 1, character + 1] != null)
                     {
                         healthTakenAway += 1.75;
                     }
@@ -668,13 +668,13 @@ namespace Savanna
         /// <param name="character">Character in Line where the animal is at</param>
         /// <param name="field">Field object that includes the animal array that has the animals on it</param>
         /// <param name="dictionary">Older copy of the dictionary that was made before the last changes</param>
-        private void DeleteAnimalsFromDictionary(int line, int character, Field field, Dictionary<int,int> dictionary)
+        private void DeleteAnimalsFromDictionary(int line, int character, Field field, Dictionary<int, int> dictionary)
         {
             foreach (var item in dictionary)
             {
-                if(field.SavannaField[line, character].PartnerIds.ContainsKey(item.Key))
+                if (field.SavannaField[line, character].PartnerIds.ContainsKey(item.Key))
                 {
-                    if(field.SavannaField[line, character].PartnerIds[item.Key] == dictionary[item.Key])
+                    if (field.SavannaField[line, character].PartnerIds[item.Key] == dictionary[item.Key])
                     {
                         field.SavannaField[line, character].PartnerIds.Remove(item.Key);
                     }

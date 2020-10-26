@@ -20,8 +20,8 @@ namespace Savanna
         public FieldManager(IAnimalManager animalManager, IUI ui)
         {
             _animalManager = animalManager;
-            _field = new Field(40, 100);
             _ui = ui;
+            _field = new Field(40, 100);
 
             SetFieldUpdateTimer();
         }
