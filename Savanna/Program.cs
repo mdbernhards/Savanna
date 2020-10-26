@@ -10,7 +10,7 @@
         /// </summary>
         public static void Main(string[] args)
         {
-            new FieldManager(new AnimalManager(), new UI());
+            new FieldManager(new AnimalManager(), new UI(), new Field(40, 100));
         }
     }
 }

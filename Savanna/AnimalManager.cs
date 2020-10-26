@@ -34,7 +34,7 @@ namespace Savanna
         /// Starts the moving process, chooses what type of moving will the animal do: normal, running away, attacking.
         /// </summary>
         /// <param name="field">Field that the animals move on</param>
-        public void MoveAllAnimals(Field field)
+        public void MoveAllAnimals(IField field)
         {
             for (int line = 0; line < field.Height; line++)
             {
@@ -58,7 +58,7 @@ namespace Savanna
         /// <param name="line">Line where the animal is at</param>
         /// <param name="character">Character in line where the animal is at</param>
         /// <param name="field">Field that the animal moves on</param>
-        private void RandomMove(int line, int character, Field field)
+        private void RandomMove(int line, int character, IField field)
         {
             int side = RandomInt.Next(4);
             int newLine = line;
@@ -98,7 +98,7 @@ namespace Savanna
         /// </summary>
         /// <param name="field">Field where the animal will spawn on</param>
         /// <param name="animalName">Animal named used for creating the animal</param>
-        private void SpawnAnimal(Field field, string animalName)
+        private void SpawnAnimal(IField field, string animalName)
         {
             do
             {
@@ -124,7 +124,7 @@ namespace Savanna
         /// Checks if there is a need to spawn animal, if there is calls SpawnAnimal method and gives it the type of animal that is needed to be spawned
         /// </summary>
         /// <param name="field">Field that is given to SpawnAnimal method if animal spawning is needed</param>
-        public void CheckForAnimalSpawn(Field field)
+        public void CheckForAnimalSpawn(IField field)
         {
             ConsoleKey key = default;
 
@@ -157,7 +157,7 @@ namespace Savanna
         /// <param name="line">Line where the animal is at</param>
         /// <param name="character">Character in line where the animal is at</param>
         /// <param name="field">Field that the animal moves on</param>
-        private void CheckForSpecialMove(int line, int character, Field field)
+        private void CheckForSpecialMove(int line, int character, IField field)
         {
             int vision = field.SavannaField[line, character].VisionRange;
 
@@ -201,7 +201,7 @@ namespace Savanna
         /// <param name="attackerCharacter">Character in line where the attacking animal is at</param>
         /// <param name="animalSeenLine">Line where the attacked animal is at</param>
         /// <param name="animalSeenCharacter">Character in line where the attacked animal is at</param>
-        private void AttackMove(Field field, int attackerLine, int attackerCharacter, int animalSeenLine, int animalSeenCharacter) 
+        private void AttackMove(IField field, int attackerLine, int attackerCharacter, int animalSeenLine, int animalSeenCharacter) 
         {
             int OriginalAttackerHeight = attackerLine;
             int OriginalAttackerWidth = attackerCharacter;
@@ -293,7 +293,7 @@ namespace Savanna
         /// <param name="runnerCharacter">Character in line where the animal running away is at</param>
         /// <param name="animalSeenLine">Line where the animal run from is at</param>
         /// <param name="animalSeenCharacter">Character in line where the animal run from is at</param>
-        private void RunAwayMove(Field field, int runnerLine, int runnerCharacter, int animalSeenLine, int animalSeenCharacter)
+        private void RunAwayMove(IField field, int runnerLine, int runnerCharacter, int animalSeenLine, int animalSeenCharacter)
         {
             int OriginalRunnerHeight = runnerLine;
             int OriginalRunnerWidth = runnerCharacter;
@@ -384,7 +384,7 @@ namespace Savanna
         /// Resets Animal array field.SavannaField property HasMoved to false for all array members
         /// </summary>
         /// <param name="field">Animal field where the property will be reset</param>
-        public void AnimalReset(Field field)
+        public void AnimalReset(IField field)
         {
             for (int line = 0; line < field.Height; line++)
             {
@@ -402,7 +402,7 @@ namespace Savanna
         /// Checks each animal health, if it's 0 or below sets the animal type to 'E' or Empty
         /// </summary>
         /// <param name="field">Animal field where the animal heath is checked and dead animals are set</param>
-        public void SetIfAnimalDead(Field field)
+        public void SetIfAnimalDead(IField field)
         {
             for (int line = 0; line < field.Height; line++)
             {
@@ -428,7 +428,7 @@ namespace Savanna
         /// <param name="line">Line where the animal is at</param>
         /// <param name="character">Character in Line where the animal is at</param>
         /// <param name="field">Field object that includes the animal array that has the animals on it</param>
-        private double CheckForOverPopulation(int line, int character, Field field)
+        private double CheckForOverPopulation(int line, int character, IField field)
         {
             double healthTakenAway = 0;
 
@@ -465,7 +465,7 @@ namespace Savanna
         /// <param name="line">Line where the animal is at</param>
         /// <param name="character">Character in Line where the animal is at</param>
         /// <param name="field">Animal field where the animals are on</param>
-        private void EatAnimalIfCan(int line, int character, Field field)
+        private void EatAnimalIfCan(int line, int character, IField field)
         {
             int eatRange = 1;
 
@@ -505,7 +505,7 @@ namespace Savanna
         /// <param name="secondLine">Line where the second animal found near is at</param>
         /// <param name="secondCharacter">Character in Line where the second animal found near is at</param>
         /// <param name="field">Field object that includes the animal array that has the animals on it</param>
-        private void CheckIfNewAnimalNeedsToSpawn(int firstLine, int firstCharacter, int secondLine, int secondCharacter, Field field)
+        private void CheckIfNewAnimalNeedsToSpawn(int firstLine, int firstCharacter, int secondLine, int secondCharacter, IField field)
         {
             if (!field.SavannaField[firstLine, firstCharacter].PartnerIds.ContainsKey(field.SavannaField[secondLine, secondCharacter].ID))
             {
@@ -529,7 +529,7 @@ namespace Savanna
         /// <param name="line">Line where the animal is going to be spawned close to</param>
         /// <param name="character">Character in Line where the animal is going to be spawned close to</param>
         /// <param name="field">Field object that includes the animal array that has the animals on it</param>
-        private void SpawnAnimalNearby(int line, int character, Field field)
+        private void SpawnAnimalNearby(int line, int character, IField field)
         {
             bool animalSpawned = false;
             int placeInColumn = line;
@@ -572,7 +572,7 @@ namespace Savanna
         /// Searches for animals in animal array that is in field object. If finds an animal calls methods that check if an animal will be eaten or a new one born
         /// </summary>
         /// <param name="field">Field object that includes the animal array that is the Savanna game field</param>
-        public void SearchForAnimals(Field field)
+        public void SearchForAnimals(IField field)
         {
             for (int line = 0; line < field.Height; line++)
             {
@@ -599,7 +599,7 @@ namespace Savanna
         /// <param name="line">Line where the animal is at</param>
         /// <param name="character">Character in Line where the animal is at</param>
         /// <param name="field">Field object that includes the animal array that has the animals on it</param>
-        private void SearchForAnimalsThatAreClose(int line, int character, Field field)
+        private void SearchForAnimalsThatAreClose(int line, int character, IField field)
         {
             int partnerRange = 1;
 
@@ -626,7 +626,7 @@ namespace Savanna
         /// <param name="field">Field object that includes the animal array that has the animals on it</param>
         /// <param name="secondLine">Line where the second animal is at</param>
         /// <param name="secondCharacter">Character in Line where the second animal is at</param>
-        private void CheckIfAnimalsAreTheSameType(int firstLine, int firstCharacter, Field field, int secondLine, int secondCharacter)
+        private void CheckIfAnimalsAreTheSameType(int firstLine, int firstCharacter, IField field, int secondLine, int secondCharacter)
         {
             if (field.SavannaField[secondLine, secondCharacter].Type == field.SavannaField[firstLine, firstCharacter].Type)
             {
@@ -668,7 +668,7 @@ namespace Savanna
         /// <param name="character">Character in Line where the animal is at</param>
         /// <param name="field">Field object that includes the animal array that has the animals on it</param>
         /// <param name="dictionary">Older copy of the dictionary that was made before the last changes</param>
-        private void DeleteAnimalsFromDictionary(int line, int character, Field field, Dictionary<int, int> dictionary)
+        private void DeleteAnimalsFromDictionary(int line, int character, IField field, Dictionary<int, int> dictionary)
         {
             foreach (var item in dictionary)
             {

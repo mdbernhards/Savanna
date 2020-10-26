@@ -1,9 +1,11 @@
-﻿namespace Savanna
+﻿using Savanna.Interfaces;
+
+namespace Savanna
 {
     /// <summary>
     /// Stores information about the Savanna field, like what animals are in it and its Height and Width
     /// </summary>
-    public class Field
+    public class Field : IField
     {
         /// <summary>
         /// Stores information about the animals and the location of them

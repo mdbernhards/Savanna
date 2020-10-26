@@ -11,17 +11,17 @@ namespace Savanna
     {
         private readonly IAnimalManager _animalManager;
         private readonly IUI _ui;
-        private readonly Field _field;
+        private readonly IField _field;
         private Timer UpdateTimer;
 
         /// <summary>
         /// Class that manages evrything about the Savanna field, like: field SetUp and timed field update
         /// </summary>
-        public FieldManager(IAnimalManager animalManager, IUI ui)
+        public FieldManager(IAnimalManager animalManager, IUI ui, IField field)
         {
             _animalManager = animalManager;
             _ui = ui;
-            _field = new Field(40, 100);
+            _field = field;
 
             SetFieldUpdateTimer();
         }

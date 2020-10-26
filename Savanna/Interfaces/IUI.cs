@@ -9,6 +9,6 @@
         /// When called draws the grid with given information
         /// </summary>
         /// <param name="field">The field that is going to be drawn</param>
-        public void DrawField(Field field);
+        public void DrawField(IField field);
     }
 }
